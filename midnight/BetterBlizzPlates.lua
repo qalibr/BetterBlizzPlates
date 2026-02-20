@@ -5792,7 +5792,7 @@ function BBP.SetupMidnightCastbarIcon(frame)
     end
 
     frame.castBar.Icon:SetAlpha(0)
-    frame.castBar.Text:SetParent(frame.castBarIconFrame)
+    frame.castBar.Text:SetParent(frame.castBar)
     frame.castBar.Text:SetDrawLayer("OVERLAY", 7)
 
     hooksecurefunc(frame.castBar.Icon, "SetTexture", function(self, texture)
