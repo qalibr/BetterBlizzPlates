@@ -10848,6 +10848,7 @@ local function guiMisc()
 
     local nameplateExtraClickHeight = CreateSlider(guiMisc, "Nameplate Extra Clickable Height", -40, 60, 1, "nameplateExtraClickHeight", "Y")
     nameplateExtraClickHeight:SetPoint("TOPLEFT", nameplateVerticalPosition, "BOTTOMLEFT", 0, -16)
+    CreateTooltipTwo(nameplateExtraClickHeight, "Nameplate Extra Clickable Height", "Adjust the extra clickable height of nameplates.\n\nNOTE: This decreases/increases the effectiveness of Nameplate Stacking.\n\nYou maybe have to enter values on the Overlap sliders outside of the default values. You can right click the slider to input custom values that are higher than what the slider normally allows. The overlap value is percent based from the nameplates clickable height.")
 
 
     -- local nameplateSelfWidthResetButton = CreateFrame("Button", nil, guiMisc, "UIPanelButtonTemplate")
