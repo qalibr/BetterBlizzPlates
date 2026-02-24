@@ -1,4 +1,3 @@
-if not BBP.isMidnight then return end
 -- Absorb Indicator
 function BBP.AbsorbIndicator(frame)
     --if not frame or frame.unit then return end

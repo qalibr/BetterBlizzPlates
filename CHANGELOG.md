@@ -1,3 +1,22 @@
+# BetterBlizzPlates 1.9.7
+## Retail/Midnight
+### New
+- Color NPC section back with NPC colors
+- New "Disable Outline" setting next to Font settings. More on this under Tweaks notes.
+### Tweak
+- Nameplate font rendering issue fixed and introduced new Disable Outline setting (for when custom Font is not enabled). The outline setting for custom font is now also fixed properly.
+- Cleaned up some temporary Midnight stuff so Castbars now properly don't get messed with by BBP if "Enable Castbar Customization" is disabled. Due to this your Castbar might have changed and follow Blizzards "Nameplate Style" in Blizzards Nameplates section.
+- BBP now stores a lot of the new Midnight nameplate related CVars in its profile so other people will get the same settings when sharing profiles.
+- The stacking nameplates checkbox in CVar Control is now functional again and instead split up into Enemy/Friendly stacking due to new CVars from Blizzard.
+### Bugfix
+- Fix castbar icon not showing if "Enable Castbar Customization" was not enabled.
+- Fix cast icon showing on un-interruptible casts despite the setting "Show icon on un-interruptible casts" being disabled
+- Fix nameplate shadow setting showing up on some special hidden nameplates (like the Delver's Guide book in Dornogal)
+- Fix pre-midnight nameplate setting's border & background showing up on some special hidden nameplates (like the Delver's Guide book in Dornogal)
+- Misc minor issues.
+### Note
+- Lots of stuff to keep track off. Still more bugfixes and feature bring-backs to do but we are getting somewhere. If you have reported something and not seen it fixed please do not hesitate to remind me.
+
 # BetterBlizzPlates 1.9.6
 ## Retail/Midnight
 ### Tweak

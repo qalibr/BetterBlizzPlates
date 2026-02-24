@@ -1,4 +1,3 @@
-if not BBP.isMidnight then return end
 -- Update the Execute Indicator
 function BBP.ExecuteIndicator(frame)
     if BBP.isMidnight then return end

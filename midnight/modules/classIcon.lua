@@ -1,4 +1,3 @@
-if not BBP.isMidnight then return end
 -- Healer spec id's
 local HealerSpecs = {
     [105] = true, --> druid resto

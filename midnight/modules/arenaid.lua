@@ -1,4 +1,3 @@
-if not BBP.isMidnight then return end
 -- Table with spec IDs
 local specIDToName = {
     -- Death Knight

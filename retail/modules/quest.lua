@@ -94,6 +94,10 @@ function BBP.IsQuestUnit(unit, create_watcher)
         return false, false, nil
     end
 
+    if C_Secrets.ShouldUnitIdentityBeSecret(unit) then
+        return false, false, nil
+    end
+
     local unitGUID = UnitGUID(unit)
     local quest_title
     -- local unit_name

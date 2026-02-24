@@ -1,4 +1,3 @@
-if not BBP.isMidnight then return end
 local LSM = LibStub("LibSharedMedia-3.0")
 
 BBP.previousTargetNameplate = nil

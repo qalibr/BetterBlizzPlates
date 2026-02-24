@@ -1,63 +1,18 @@
-# BetterBlizzPlates 1.9.6
+# BetterBlizzPlates 1.9.7
 ## Retail/Midnight
-### Tweak
-- PRD: Hiding PRD ManaBar now pushes the Extra Bar (Stagger, Instanity etc) up to the healthbar.
-- PRD: Change Border Size setting now works on PRD again.
-### Bugfix
-- Fix Color Threat errors due to new restrictions. Now using less accurate threat API which is not secret.
-## TBC/MoP
-### Bugfix
-- Fix Arena ID/Spec only checking arena1-3 and not 4-5 for 5v5.
-
-# BetterBlizzPlates 1.9.5g
-## Prepatch/Midnight
-### Bugfix
-- Fix timing related issue with class color for Personal Resource Display.
-
-# BetterBlizzPlates 1.9.5f
-## Prepatch/Midnight
-### Tweak
-- Update Mmarkers profile.
-### Bugfix
-- Fix secret comparison error in BGs related to unit name hidden while casting setting. Ty to qalibr @ GitHub for contributing the fix.
-- Fix rogue combo points not being centered properly on first time login. Blizzard is not centering this properly and my fix for it is hopefully temporary. If you have issues with this still please let me know.
-## TBC/MoP
-### Bugfix
-- Fix issues with nameplate Key Auras and max Auras.
-
-# BetterBlizzPlates 1.9.5e
-## Prepatch/Midnight
 ### New
-- Add Pinkteddyp profile (www.twitch.tv/pinkteddyp). Thank you for sharing.
-### Bugfix
-- Fix wrong frame being called on retexture overbars
-- Fix a secret comparison
-- Fix PRD width slider
-
-# BetterBlizzPlates 1.9.5d
-## Prepatch/Midnight
-### Bugfix
-- Fix nil error from last update, oops.
-
-# BetterBlizzPlates 1.9.5c
-## Prepatch/Midnight
-### Bugfix
-- Fixup a lot of the Personal Resource Display settings for Midnight. Texture and size etc.
-
-# BetterBlizzPlates 1.9.5b
-## Prepatch/Midnight
-### Bugfix
-- Fix two minor (but spammy) errors.
-
-# BetterBlizzPlates 1.9.5
-## Prepatch/Midnight
-### New
-- Add Aswog profile (www.twitch.tv/aswog). Thank you for sharing!
+- Color NPC section back with NPC colors
+- New "Disable Outline" setting next to Font settings. More on this under Tweaks notes.
 ### Tweak
-- Updated Venruki (www.twitch.tv/venruki) profile. Thank you for sharing!
+- Nameplate font rendering issue fixed and introduced new Disable Outline setting (for when custom Font is not enabled). The outline setting for custom font is now also fixed properly.
+- Cleaned up some temporary Midnight stuff so Castbars now properly don't get messed with by BBP if "Enable Castbar Customization" is disabled. Due to this your Castbar might have changed and follow Blizzards "Nameplate Style" in Blizzards Nameplates section.
+- BBP now stores a lot of the new Midnight nameplate related CVars in its profile so other people will get the same settings when sharing profiles.
+- The stacking nameplates checkbox in CVar Control is now functional again and instead split up into Enemy/Friendly stacking due to new CVars from Blizzard.
 ### Bugfix
-- Fix remove realm name
-- Fix cast timers
-## The Burning Crusade
-### Bugfix
-- Potential fix for some unit errors
+- Fix castbar icon not showing if "Enable Castbar Customization" was not enabled.
+- Fix cast icon showing on un-interruptible casts despite the setting "Show icon on un-interruptible casts" being disabled
+- Fix nameplate shadow setting showing up on some special hidden nameplates (like the Delver's Guide book in Dornogal)
+- Fix pre-midnight nameplate setting's border & background showing up on some special hidden nameplates (like the Delver's Guide book in Dornogal)
+- Misc minor issues.
+### Note
+- Lots of stuff to keep track off. Still more bugfixes and feature bring-backs to do but we are getting somewhere. If you have reported something and not seen it fixed please do not hesitate to remind me.

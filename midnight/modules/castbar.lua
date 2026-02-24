@@ -1,4 +1,3 @@
-if not BBP.isMidnight then return end
 local LSM = LibStub("LibSharedMedia-3.0")
 
 local interruptSpells = {
@@ -452,10 +451,10 @@ function BBP.CustomizeCastbar(frame, unitToken, event)
             castBar.Icon:SetDrawLayer("OVERLAY", 2)
         else
             if (casting or channeling) then
-                castBar.Icon:Show() --attempt to fix icon randomly not showing (blizz bug)
                 if notInterruptible ~= nil then
                     castBar.Icon:SetAlphaFromBoolean(notInterruptible, 0, 1)
                 else
+                    castBar.Icon:Show() --attempt to fix icon randomly not showing (blizz bug)
                     castBar.Icon:SetAlpha(1)
                 end
             elseif not castBar:IsVisible() then

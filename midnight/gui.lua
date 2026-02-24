@@ -1,4 +1,3 @@
-if not BBP.isMidnight then return end
 local LSM = LibStub("LibSharedMedia-3.0")
 local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
@@ -1890,8 +1889,6 @@ local function CreateImportExportUI(parent, title, dataTable, posX, posY, tableN
 
     if title == "Cast Emphasis List" then
         CreateTooltipTwo(titleText, "Supports Plater cast color import as well.")
-    elseif title == "Color NPC List" then
-        CreateTooltipTwo(titleText, "Supports Plater NPC Color import as well.")
     end
 
     -- Export EditBox
@@ -2052,13 +2049,16 @@ local function LateUpdateCheckboxState(checkBox, option)
     checkBox:SetChecked(isChecked)
 end
 
-local function CreateCheckbox(option, label, parent, cvar, extraFunc)
+local function CreateCheckbox(option, label, parent, cvar, extraFunc, bitCVar)
     local checkBox = CreateFrame("CheckButton", nil, parent, "InterfaceOptionsCheckButtonTemplate")
     checkBox.Text:SetText(label)
     checkBox.option = option
     table.insert(checkBoxList, {checkbox = checkBox, label = label})
     if cvar then
         checkBox.cvar = true
+    end
+    if bitCVar then
+        checkBox.bitCVar = bitCVar
     end
 
     local category
@@ -2077,27 +2077,29 @@ local function CreateCheckbox(option, label, parent, cvar, extraFunc)
     checkBox.searchCategory = category
 
     local function UpdateCheckboxState()
-        if cvar and not BBP.variablesLoaded then
+        if (cvar or bitCVar) and not BBP.variablesLoaded then
             C_Timer.After(0.1, function() UpdateCheckboxState() end)
         else
-            if BetterBlizzPlatesDB[option] == "1" or BetterBlizzPlatesDB[option] == 1 or BetterBlizzPlatesDB[option] == true then
+            if bitCVar then
+                local val = BetterBlizzPlatesDB.bitfields
+                    and BetterBlizzPlatesDB.bitfields[bitCVar.cvarName]
+                    and BetterBlizzPlatesDB.bitfields[bitCVar.cvarName][tostring(bitCVar.index)]
+                checkBox:SetChecked(val and true or false)
+            elseif BetterBlizzPlatesDB[option] == "1" or BetterBlizzPlatesDB[option] == 1 or BetterBlizzPlatesDB[option] == true then
                 BetterBlizzPlatesDB[option] = "1"
                 checkBox:SetChecked(true)
             else
                 BetterBlizzPlatesDB[option] = "0"
                 checkBox:SetChecked(false)
             end
-            local isChecked = checkBox:GetChecked()
-            local newValue = isChecked and "1" or "0"
-            if cvar then
-                -- if not BetterBlizzPlatesDB.wasOnLoadingScreen then
-                --     BBP.RunAfterCombat(function()
-                --         C_CVar.SetCVar(option, newValue)
-                --     end)
-                -- end
-                BetterBlizzPlatesDB[option] = newValue
-            else
-                BetterBlizzPlatesDB[option] = isChecked
+            if not bitCVar then
+                local isChecked = checkBox:GetChecked()
+                local newValue = isChecked and "1" or "0"
+                if cvar then
+                    BetterBlizzPlatesDB[option] = newValue
+                else
+                    BetterBlizzPlatesDB[option] = isChecked
+                end
             end
         end
     end
@@ -2105,7 +2107,7 @@ local function CreateCheckbox(option, label, parent, cvar, extraFunc)
     UpdateCheckboxState()
 
     local function UpdateCheckboxStateDependingOnParent()
-        if (cvar or parent.cvar) and not BBP.variablesLoaded then
+        if (cvar or bitCVar or parent.cvar or parent.bitCVar) and not BBP.variablesLoaded then
             C_Timer.After(0.5, function() UpdateCheckboxStateDependingOnParent() end)
         else
             local grandparent = parent:GetParent()
@@ -2124,7 +2126,14 @@ local function CreateCheckbox(option, label, parent, cvar, extraFunc)
     checkBox:SetScript("OnClick", function(self)
         local isChecked = self:GetChecked()
         local newValue = isChecked
-        if cvar then
+        if bitCVar then
+            BBP.RunAfterCombat(function()
+                BetterBlizzPlatesDB.bitfields[bitCVar.cvarName][tostring(bitCVar.index)] = isChecked
+                BBP.CVarTrackingDisabled = true
+                C_CVar.SetCVarBitfield(bitCVar.cvarName, bitCVar.index, isChecked)
+                BBP.CVarTrackingDisabled = nil
+            end)
+        elseif cvar then
             newValue = isChecked and "1" or "0"
             BBP.RunAfterCombat(function()
                 BBP.CVarTrackingDisabled = true
@@ -5372,9 +5381,9 @@ local function guiGeneralTab()
     friendlyNameplateClickthrough:SetPoint("TOPLEFT", friendlyNameplatesText, "BOTTOMLEFT", 0, pixelsOnFirstBox)
     CreateTooltipTwo(friendlyNameplateClickthrough, "Clickthrough Nameplate", "Make friendly nameplates clickthrough")
 
-    local friendlyNameplateNonstackable = CreateCheckbox("friendlyNameplateNonstackable", "Non-Stackable", BetterBlizzPlates, nil, BBP.ApplyNameplateWidth)
-    friendlyNameplateNonstackable:SetPoint("LEFT", friendlyNameplateClickthrough.text, "RIGHT", 0, 0)
-    CreateTooltipTwo(friendlyNameplateNonstackable, "Non-Stackable", "Makes the friendly nameplates non-stackable even with \"Stacking Nameplates\" on.")
+    -- local friendlyNameplateNonstackable = CreateCheckbox("friendlyNameplateNonstackable", "Non-Stackable", BetterBlizzPlates, nil, BBP.ApplyNameplateWidth)
+    -- friendlyNameplateNonstackable:SetPoint("LEFT", friendlyNameplateClickthrough.text, "RIGHT", 0, 0)
+    -- CreateTooltipTwo(friendlyNameplateNonstackable, "Non-Stackable", "Makes the friendly nameplates non-stackable even with \"Stacking Nameplates\" on.")
 
     local friendlyClassColorName = CreateCheckbox("friendlyClassColorName", "Class color name", BetterBlizzPlates)
     friendlyClassColorName:SetPoint("TOPLEFT", friendlyNameplateClickthrough, "BOTTOMLEFT", 0, pixelsBetweenBoxes)
@@ -5921,6 +5930,10 @@ local function guiGeneralTab()
     useCustomFont:SetPoint("TOPLEFT", customFontandTextureText, "BOTTOMLEFT", 0, pixelsOnFirstBox)
     CreateTooltipTwo(useCustomFont, "Custom Font", "Change the nameplate font.", "If you want to completely skip nameplate font adjustment there is a setting in the Misc section for that")
 
+    local useDefaultBlizzardOutline = CreateCheckbox("disableDefaultBlizzardOutline", "Disable Outline", BetterBlizzPlates)
+    useDefaultBlizzardOutline:SetPoint("LEFT", useCustomFont.Text, "RIGHT", 0, 0)
+    CreateTooltipTwo(useDefaultBlizzardOutline, "Disable Default Blizzard Outline", "Disable the new default font outline on nameplate text in Midnight.\n\nThis setting is irrelevant if you have Custom Font enabled, use the Outline setting below for that.")
+
     local useCustomTexture = CreateCheckbox("useCustomTextureForBars", "Change the nameplate texture", BetterBlizzPlates)
     useCustomTexture:SetPoint("TOPLEFT", useCustomFont, "BOTTOMLEFT", 0, -23)
     CreateTooltipTwo(useCustomTexture, "Custom Texture", "Change the nameplate texture.")
@@ -5939,6 +5952,8 @@ local function guiGeneralTab()
 
     if not useCustomFont:GetChecked() then
         fontDropdown:Disable()
+    else
+        DisableElement(useDefaultBlizzardOutline)
     end
 
     local enableCustomFontOutline = CreateCheckbox("enableCustomFontOutline", "Outline", useCustomFont)
@@ -6114,10 +6129,12 @@ local function guiGeneralTab()
     useCustomFont:HookScript("OnClick", function(self)
         if self:GetChecked() then
             EnableElement(enableCustomFontOutline)
+            DisableElement(useDefaultBlizzardOutline)
             fontDropdown:Enable()
         else
             fontDropdown:Disable()
             DisableElement(enableCustomFontOutline)
+            EnableElement(useDefaultBlizzardOutline)
         end
     end)
 
@@ -8879,6 +8896,7 @@ local function guiCastbar()
             castBarBackgroundColor:SetAlpha(0)
             castBarBackgroundColorIcon:SetAlpha(0)
         end
+        StaticPopup_Show("BBP_CONFIRM_RELOAD")
     end)
 
     -- castBarInterruptHighlighter:HookScript("OnClick", function(self)
@@ -9382,45 +9400,60 @@ local function guiColorNPC()
     bgImg:SetAlpha(0.4)
     bgImg:SetVertexColor(0,0,0)
 
-    local listFrame = CreateFrame("Frame", nil, guiColorNpc)
-    listFrame:SetAllPoints(guiColorNpc)
+    local npcColorSettingsText = guiColorNpc:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    npcColorSettingsText:SetPoint("LEFT", guiColorNpc, "TOPLEFT", 5, -5)
+    npcColorSettingsText:SetText("NPC Color settings")
+    local npcColorSettingsIcon = guiColorNpc:CreateTexture(nil, "ARTWORK")
+    npcColorSettingsIcon:SetAtlas("powerswirlanimation-starburst-soulbinds")
+    npcColorSettingsIcon:SetSize(24, 24)
+    npcColorSettingsIcon:SetPoint("RIGHT", npcColorSettingsText, "LEFT", -3, 0)
 
-    local colorList = CreateList(listFrame, "colorNpcList", BetterBlizzPlatesDB.colorNpcList, BBP.RefreshAllNameplates, true, false, false, 400)
-    colorList:SetPoint("TOPLEFT", -5, -10)
+    local colorNPC = CreateCheckbox("colorNPC", "Enable Color NPC", guiColorNpc, nil, BBP.colorNPC)
+    colorNPC:SetPoint("TOPLEFT", npcColorSettingsText, "BOTTOMLEFT", -10, pixelsOnFirstBox)
+    CreateTooltip(colorNPC, "Color NPCs a color of your choice.")
 
-    local listExplanationText = guiColorNpc:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    listExplanationText:SetPoint("TOP", guiColorNpc, "BOTTOMLEFT", 180, 155)
-    listExplanationText:SetText("Add name or npcID. Case-insensitive.\n \n \nAdd a comment to the entry with slash\nfor example 1337/comment or xuen/monk tiger\n \nType a name or npcID already in list to delete it")
+    local colorNPCEverywhere = CreateCheckbox("colorNPCEverywhere", "Color NPC's Everywhere", colorNPC, nil, BBP.colorNPC)
+    colorNPCEverywhere:SetPoint("TOPLEFT", colorNPC, "BOTTOMLEFT", 0, pixelsBetweenBoxes)
+    CreateTooltipTwo(colorNPCEverywhere, "Color NPC's Everywhere", "Enable to color NPC's everywhere instead of just in PvE instances.")
 
-    local colorNpcExplanationText = guiColorNpc:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    colorNpcExplanationText:SetPoint("TOP", guiColorNpc, "TOP", 197, -127)
-    colorNpcExplanationText:SetText("This colors specific nameplates.\n \nAdd a name/npc ID and select a color")
+    local colorNPCName = CreateCheckbox("colorNPCName", "Also Color Name Text", colorNPC, nil, BBP.colorNPC)
+    colorNPCName:SetPoint("TOPLEFT", colorNPCEverywhere, "BOTTOMLEFT", 0, pixelsBetweenBoxes)
 
-    local colorNPC = CreateCheckbox("colorNPC", "Enable NPC Color", guiColorNpc, nil, BBP.colorNPC)
-    colorNPC:SetPoint("TOPLEFT", colorNpcExplanationText, "BOTTOMLEFT", 56, -15)
-    CreateTooltip(colorNPC, "Color NPC's from the list a color of your choice.\nClick color button after adding the NPC to the list to chose color.")
+    local npcColorBoss = CreateColorBox(colorNPC, "npcColorBoss", "Boss")
+    npcColorBoss:SetPoint("TOPLEFT", colorNPCName, "BOTTOMLEFT", 0, -8)
 
-    local colorNPCName = CreateCheckbox("colorNPCName", "Also color name text", colorNPC, nil, BBP.colorNPC)
-    colorNPCName:SetPoint("TOPLEFT", colorNPC, "BOTTOMLEFT", 0, pixelsBetweenBoxes)
+    local npcColorMiniboss = CreateColorBox(colorNPC, "npcColorMiniboss", "Miniboss")
+    npcColorMiniboss:SetPoint("TOPLEFT", npcColorBoss, "BOTTOMLEFT", 0, -2)
 
+    local npcColorMinionCaster = CreateColorBox(colorNPC, "npcColorCaster", "Casters")
+    npcColorMinionCaster:SetPoint("TOPLEFT", npcColorMiniboss, "BOTTOMLEFT", 0, -2)
 
-    local importS2 = CreateFrame("Button", nil, colorNPC, "UIPanelButtonTemplate")
-    importS2:SetText("Import M+ Season 3 NPCs")
-    importS2:SetWidth(175)
-    importS2:SetPoint("TOPLEFT", colorNPCName, "TOPLEFT", -25, -30)
-    importS2:SetScript("OnClick", function()
-        StaticPopup_Show("BBP_CONFIRM_IMPORT_NPCCOLOR")
+    local npcColorMelee = CreateColorBox(colorNPC, "npcColorMelee", "Melee")
+    npcColorMelee:SetPoint("TOPLEFT", npcColorMinionCaster, "BOTTOMLEFT", 0, -2)
+
+    local npcColorTrivial = CreateColorBox(colorNPC, "npcColorTrivial", "Trivial")
+    npcColorTrivial:SetPoint("TOPLEFT", npcColorMelee, "BOTTOMLEFT", 0, -2)
+    CreateTooltipTwo(npcColorTrivial, "Trivial", "Low-level trivial mobs.")
+
+    local npcColorRareElite = CreateColorBox(colorNPC, "npcColorRareElite", "Rare / Rare-Elite")
+    npcColorRareElite:SetPoint("TOPLEFT", npcColorTrivial, "BOTTOMLEFT", 0, -2)
+
+    local npcColorMinus = CreateColorBox(colorNPC, "npcColorMinus", "Minus")
+    npcColorMinus:SetPoint("TOPLEFT", npcColorRareElite, "BOTTOMLEFT", 0, -2)
+    CreateTooltipTwo(npcColorMinus, "Minus", "Small squishy mobs.")
+
+    colorNPC:HookScript("OnClick", function()
+        local enabled = colorNPC:GetChecked()
+        local a = enabled and 1 or 0.5
+        npcColorBoss:SetAlpha(a)
+        npcColorMiniboss:SetAlpha(a)
+        npcColorMinionCaster:SetAlpha(a)
+        npcColorMelee:SetAlpha(a)
+        npcColorTrivial:SetAlpha(a)
+        npcColorRareElite:SetAlpha(a)
+        npcColorMinus:SetAlpha(a)
+        CheckAndToggleCheckboxes(colorNPC)
     end)
-    CreateTooltipTwo(importS2, "Import M+ Season 3 Colors", "Import M+ Season 3 NPC Colors, made by Gramhehe @ Wago (Plater).\n\nColors:\n|cffc49a6cBoss|r\n|cffff00ffMini Boss / Important mob|r\n|cff00bfffCasters|r\n|cff00ff00Has a spell that needs to be stopped|r\n|cffadff2fEnrage / Soothable / Spellsteal|r\n|cffff7f00Tank debuffs / group debuffs|r", nil, "ANCHOR_TOP")
-
-    local wipeColorNpcList = CreateFrame("Button", nil, guiColorNpc, "UIPanelButtonTemplate")
-    wipeColorNpcList:SetText("Delete All")
-    wipeColorNpcList:SetWidth(85)
-    wipeColorNpcList:SetPoint("TOP", listExplanationText, "BOTTOM", 0, -10)
-    wipeColorNpcList:SetScript("OnClick", function()
-        StaticPopup_Show("BBP_CONFIRM_WIPE_NPCCOLOR")
-    end)
-    CreateTooltipTwo(wipeColorNpcList, "Delete All", "Deletes all entries in the color npc list")
 
     local reloadUiButton = CreateFrame("Button", nil, guiColorNpc, "UIPanelButtonTemplate")
     reloadUiButton:SetText("Reload UI")
@@ -9431,24 +9464,7 @@ local function guiColorNPC()
         ReloadUI()
     end)
 
-    local function TogglePanel()
-        if BBP.variablesLoaded then
-            if BetterBlizzPlatesDB.colorNPC then
-                listFrame:SetAlpha(1)
-            else
-                listFrame:SetAlpha(0.5)
-            end
-        else
-            C_Timer.After(1, function()
-                TogglePanel()
-            end)
-        end
-    end
-    colorNPC:HookScript("OnClick", function ()
-        TogglePanel()
-        CheckAndToggleCheckboxes(colorNPC)
-    end)
-    TogglePanel()
+    CheckAndToggleCheckboxes(colorNPC)
 end
 
 local function guiAuraColor()
@@ -10936,17 +10952,16 @@ local function guiCVarControl()
     stackingNameplatesText:SetPoint("TOPLEFT", guiCVarControl, "TOPLEFT", 20, -35)
     stackingNameplatesText:SetText("Stacking nameplate overlap amount")
 
-    local nameplateMotion = CreateCheckbox("nameplateMotion", "Stacking nameplates", guiCVarControl, true)
-    nameplateMotion:SetPoint("TOPLEFT", stackingNameplatesText, "BOTTOMLEFT", -4, pixelsOnFirstBox)
-    --CreateTooltip(nameplateMotion, "Turn on stacking nameplates.\n\nI recommend using around 0.30 Vertical Overlap", nil, "nameplateMotion")
-    CreateTooltipTwo(nameplateMotion, "Stacking Nameplates", "Turn on stacking nameplates.", nil, nil, "nameplateMotion")
-    nameplateMotion:HookScript("OnMouseDown", function(self, button)
+    local nameplateStackingEnemy = CreateCheckbox("nameplateStackingTypes_Enemy", "Stacking enemy nameplates", guiCVarControl, nil, nil, {cvarName = "nameplateStackingTypes", index = Enum.NamePlateStackType.Enemy})
+    nameplateStackingEnemy:SetPoint("TOPLEFT", stackingNameplatesText, "BOTTOMLEFT", -4, pixelsOnFirstBox)
+    CreateTooltipTwo(nameplateStackingEnemy, "Stacking Enemy Nameplates", "Turn on stacking for enemy nameplates.", nil, nil, "nameplateStackingTypes")
+    nameplateStackingEnemy:HookScript("OnMouseDown", function(self, button)
         if button == "RightButton" then
             if BetterBlizzPlatesDB.keepOverlappingNameplatesInPvP == nil then
                 BetterBlizzPlatesDB.keepOverlappingNameplatesInPvP = true
-                if not nameplateMotion:GetChecked() then
-                    nameplateMotion:Click()
-                    nameplateMotion:SetChecked(true)
+                if not nameplateStackingEnemy:GetChecked() then
+                    nameplateStackingEnemy:Click()
+                    nameplateStackingEnemy:SetChecked(true)
                 end
             else
                 BetterBlizzPlatesDB.keepOverlappingNameplatesInPvP = nil
@@ -10958,27 +10973,53 @@ local function guiCVarControl()
         end
     end)
 
-    local nameplateOverlapH = CreateSlider(nameplateMotion, "Horizontal Overlap", 0.05, 1, 0.01, "nameplateOverlapH")
-    nameplateOverlapH:SetPoint("TOPLEFT", nameplateMotion, "BOTTOMLEFT", 12, -10)
-    CreateTooltipTwo(nameplateOverlapH, "Horizontal Overlap", "Space between nameplates horizontally", nil, nil, "nameplateOverlapH")
-    local nameplateOverlapHReset = CreateResetButton(nameplateOverlapH, "nameplateOverlapH", nameplateMotion)
+    local nameplateStackingFriendly = CreateCheckbox("nameplateStackingTypes_Friendly", "Stacking friendly nameplates", guiCVarControl, nil, nil, {cvarName = "nameplateStackingTypes", index = Enum.NamePlateStackType.Friendly})
+    nameplateStackingFriendly:SetPoint("TOPLEFT", nameplateStackingEnemy, "BOTTOMLEFT", 0, pixelsBetweenBoxes)
+    CreateTooltipTwo(nameplateStackingFriendly, "Stacking Friendly Nameplates", "Turn on stacking for friendly nameplates.", nil, nil, "nameplateStackingTypes")
 
-    local nameplateOverlapV = CreateSlider(nameplateMotion, "Vertical Overlap", 0.05, 1.1, 0.01, "nameplateOverlapV")
+    local nameplateOverlapH = CreateSlider(guiCVarControl, "Horizontal Overlap", 0.05, 1, 0.01, "nameplateOverlapH")
+    nameplateOverlapH:SetPoint("TOPLEFT", nameplateStackingFriendly, "BOTTOMLEFT", 12, -10)
+    CreateTooltipTwo(nameplateOverlapH, "Horizontal Overlap", "Space between nameplates horizontally", nil, nil, "nameplateOverlapH")
+    local nameplateOverlapHReset = CreateResetButton(nameplateOverlapH, "nameplateOverlapH", guiCVarControl)
+
+    local nameplateOverlapV = CreateSlider(guiCVarControl, "Vertical Overlap", 0.05, 1.1, 0.01, "nameplateOverlapV")
     nameplateOverlapV:SetPoint("TOPLEFT", nameplateOverlapH, "BOTTOMLEFT", 0, -17)
     CreateTooltipTwo(nameplateOverlapV, "Vertical Overlap", "Space between nameplates vertically", nil, nil, "nameplateOverlapV")
-    local nameplateOverlapVReset = CreateResetButton(nameplateOverlapV, "nameplateOverlapV", nameplateMotion)
+    local nameplateOverlapVReset = CreateResetButton(nameplateOverlapV, "nameplateOverlapV", guiCVarControl)
 
-    local nameplateMotionSpeed = CreateSlider(nameplateMotion, "Nameplate Motion Speed", 0.01, 1, 0.01, "nameplateMotionSpeed")
+    local nameplateMotionSpeed = CreateSlider(guiCVarControl, "Nameplate Motion Speed", 0.01, 1, 0.01, "nameplateMotionSpeed")
     nameplateMotionSpeed:SetPoint("TOPLEFT", nameplateOverlapV, "BOTTOMLEFT", 0, -17)
     CreateTooltipTwo(nameplateMotionSpeed, "Nameplate Motion Speed", "The speed at which nameplates move into their new position", nil, nil, "nameplateMotionSpeed")
-    local nameplateMotionSpeedReset = CreateResetButton(nameplateMotionSpeed, "nameplateMotionSpeed", nameplateMotion)
+    local nameplateMotionSpeedReset = CreateResetButton(nameplateMotionSpeed, "nameplateMotionSpeed", guiCVarControl)
 
-    if not BetterBlizzPlatesDB.nameplateMotion then
-        CheckAndToggleCheckboxes(nameplateMotion)
+    local stackingSliders = {nameplateOverlapH, nameplateOverlapV, nameplateMotionSpeed, nameplateOverlapHReset, nameplateOverlapVReset, nameplateMotionSpeedReset}
+    local function ToggleStackingSliders()
+        local eitherChecked = nameplateStackingEnemy:GetChecked() or nameplateStackingFriendly:GetChecked()
+        for _, element in ipairs(stackingSliders) do
+            if eitherChecked then
+                element:Enable()
+                element:SetAlpha(1)
+            else
+                element:Disable()
+                element:SetAlpha(0.5)
+            end
+        end
     end
 
-    nameplateMotion:HookScript("OnClick", function(self)
-        CheckAndToggleCheckboxes(nameplateMotion)
+    local function InitStackingSliders()
+        if not BBP.variablesLoaded then
+            C_Timer.After(0.1, InitStackingSliders)
+            return
+        end
+        ToggleStackingSliders()
+    end
+    InitStackingSliders()
+
+    nameplateStackingEnemy:HookScript("OnClick", function()
+        ToggleStackingSliders()
+    end)
+    nameplateStackingFriendly:HookScript("OnClick", function()
+        ToggleStackingSliders()
     end)
 
 
@@ -11366,7 +11407,6 @@ local function guiCVarControl()
     cbCVars["nameplateShowFriendlyPlayerPets"] = nameplateShowFriendlyPlayerPets
     cbCVars["nameplateShowFriendlyPlayerTotems"] = nameplateShowFriendlyPlayerTotems
     --cbCVars["nameplateResourceOnTarget"] = nameplateResourceOnTarget
-    cbCVars["nameplateMotion"] = nameplateMotion
     cbCVars["nameplateShowAll"] = nameplateShowAll
 
     local sliderCVars = {}
@@ -11410,6 +11450,13 @@ local function guiCVarControl()
                 elseif sliderCVars[cvarName] then
                     --BetterBlizzPlatesDB[cvarName] = tonumber(cvarValue)
                     sliderCVars[cvarName]:SetValue(tonumber(cvarValue))
+                elseif cvarName == "nameplateStackingTypes" then
+                    -- Sync bitfield checkbox UI
+                    local enemyVal = C_CVar.GetCVarBitfield("nameplateStackingTypes", Enum.NamePlateStackType.Enemy)
+                    local friendlyVal = C_CVar.GetCVarBitfield("nameplateStackingTypes", Enum.NamePlateStackType.Friendly)
+                    nameplateStackingEnemy:SetChecked(enemyVal and true or false)
+                    nameplateStackingFriendly:SetChecked(friendlyVal and true or false)
+                    CheckAndToggleCheckboxes(nameplateStackingEnemy)
                 end
             end
         end)
@@ -12003,25 +12050,24 @@ local function guiImportAndExport()
 
     local fullProfile = CreateImportExportUI(guiImportAndExport, "Full Profile", BetterBlizzPlatesDB, 20, -20, "fullProfile")
 
-    local auraWhitelist = CreateImportExportUI(fullProfile, "Aura Whitelist", BetterBlizzPlatesDB.auraWhitelist, 0, -100, "auraWhitelist")
-    local auraBlacklist = CreateImportExportUI(auraWhitelist, "Aura Blacklist", BetterBlizzPlatesDB.auraBlacklist, 210, 0, "auraBlacklist")
+    -- local auraWhitelist = CreateImportExportUI(fullProfile, "Aura Whitelist", BetterBlizzPlatesDB.auraWhitelist, 0, -100, "auraWhitelist")
+    -- local auraBlacklist = CreateImportExportUI(auraWhitelist, "Aura Blacklist", BetterBlizzPlatesDB.auraBlacklist, 210, 0, "auraBlacklist")
 
-    local totemIndicatorList = CreateImportExportUI(auraWhitelist, "Totem Indicator List", BetterBlizzPlatesDB.totemIndicatorNpcList, 0, -100, "totemIndicatorNpcList")
+    -- local totemIndicatorList = CreateImportExportUI(auraWhitelist, "Totem Indicator List", BetterBlizzPlatesDB.totemIndicatorNpcList, 0, -100, "totemIndicatorNpcList")
 
-    local fadeOutNPCsList = CreateImportExportUI(totemIndicatorList, "Fade NPC List", BetterBlizzPlatesDB.fadeOutNPCsList, 0, -100, "fadeOutNPCsList")
-    local hideNpcList = CreateImportExportUI(fadeOutNPCsList, "Hide NPC Blacklist", BetterBlizzPlatesDB.hideNPCsList, 210, 0, "hideNPCsList")
-    local hideNPCsWhitelist = CreateImportExportUI(hideNpcList, "Hide NPC Whitelist", BetterBlizzPlatesDB.hideNPCsWhitelist, 210, 0, "hideNPCsWhitelist")
+    -- local fadeOutNPCsList = CreateImportExportUI(totemIndicatorList, "Fade NPC List", BetterBlizzPlatesDB.fadeOutNPCsList, 0, -100, "fadeOutNPCsList")
+    -- local hideNpcList = CreateImportExportUI(fadeOutNPCsList, "Hide NPC Blacklist", BetterBlizzPlatesDB.hideNPCsList, 210, 0, "hideNPCsList")
+    -- local hideNPCsWhitelist = CreateImportExportUI(hideNpcList, "Hide NPC Whitelist", BetterBlizzPlatesDB.hideNPCsWhitelist, 210, 0, "hideNPCsWhitelist")
 
-    local castEmphasisList = CreateImportExportUI(fadeOutNPCsList, "Cast Emphasis List", BetterBlizzPlatesDB.castEmphasisList, 0, -100, "castEmphasisList")
-    local hideCastbarList = CreateImportExportUI(castEmphasisList, "Hide Castbar Blacklist", BetterBlizzPlatesDB.hideCastbarList, 210, 0, "hideCastbarList")
-    local hideCastbarWhitelist = CreateImportExportUI(hideCastbarList, "Hide Castbar Whitelist", BetterBlizzPlatesDB.hideCastbarWhitelist, 210, 0, "hideCastbarWhitelist")
+    -- local castEmphasisList = CreateImportExportUI(fadeOutNPCsList, "Cast Emphasis List", BetterBlizzPlatesDB.castEmphasisList, 0, -100, "castEmphasisList")
+    -- local hideCastbarList = CreateImportExportUI(castEmphasisList, "Hide Castbar Blacklist", BetterBlizzPlatesDB.hideCastbarList, 210, 0, "hideCastbarList")
+    -- local hideCastbarWhitelist = CreateImportExportUI(hideCastbarList, "Hide Castbar Whitelist", BetterBlizzPlatesDB.hideCastbarWhitelist, 210, 0, "hideCastbarWhitelist")
 
-    local colorNpcList = CreateImportExportUI(castEmphasisList, "Color NPC List", BetterBlizzPlatesDB.colorNpcList, 0, -100, "colorNpcList")
-    local auraColorList = CreateImportExportUI(colorNpcList, "Color by Aura List", BetterBlizzPlatesDB.auraColorList, 210, 0, "auraColorList")
+    -- local auraColorList = CreateImportExportUI(castEmphasisList, "Color by Aura List", BetterBlizzPlatesDB.auraColorList, 210, 0, "auraColorList")
 
-    local text2 = guiImportAndExport:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    text2:SetText("Color NPC & Cast Emphasis now supports\nPlater NPC Color & Plater Cast Color import.")
-    text2:SetPoint("LEFT", totemIndicatorList, "RIGHT", 60, 0)
+    -- local text2 = guiImportAndExport:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    -- text2:SetText("Color NPC & Cast Emphasis now supports\nPlater NPC Color & Plater Cast Color import.")
+    -- text2:SetPoint("LEFT", totemIndicatorList, "RIGHT", 60, 0)
 end
 
 local function guiSupport()
@@ -12563,7 +12609,7 @@ function BBP.LoadGUI()
     --guiHideCastbar()
     --guiFadeNPC()
     --guiHideNPC()
-    --guiColorNPC()
+    guiColorNPC()
     --guiAuraColor()
     guiNameplateAuras()
     guiCVarControl()
@@ -12642,7 +12688,6 @@ function BBP.CVarTracker()
             nameplateShowFriendlyPlayerPets = true,
             nameplateShowFriendlyPlayerTotems = true,
             nameplateResourceOnTarget = true,
-            nameplateMotion = true,
             nameplateShowAll = true
         },
         sliders = {
@@ -12656,8 +12701,16 @@ function BBP.CVarTracker()
             nameplateOccludedAlphaMult = true,
             -- Midnight
             nameplateDebuffPadding = true,
+            nameplateAuraScale = true,
         }
     }
+
+    local bitCVarNames = {}
+    if BBP.bitCVarList then
+        for cvarName, _ in pairs(BBP.bitCVarList) do
+            bitCVarNames[cvarName] = true
+        end
+    end
 
     local cvarListener = CreateFrame("Frame")
     cvarListener:RegisterEvent("CVAR_UPDATE")
@@ -12669,6 +12722,10 @@ function BBP.CVarTracker()
             BetterBlizzPlatesDB[cvarName] = cvarValue
         elseif cvarsToTrack.sliders[cvarName] then
             BetterBlizzPlatesDB[cvarName] = tonumber(cvarValue)
+        elseif bitCVarNames[cvarName] then
+            for _, index in ipairs(BBP.bitCVarList[cvarName]) do
+                BetterBlizzPlatesDB.bitfields[cvarName][tostring(index)] = C_CVar.GetCVarBitfield(cvarName, index)
+            end
         end
     end)
 end

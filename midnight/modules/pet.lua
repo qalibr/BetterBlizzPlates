@@ -1,4 +1,3 @@
-if not BBP.isMidnight then return end
 -- Main pet buff spell id's
 local petValidSpellIDs = {
     [264662] = true,

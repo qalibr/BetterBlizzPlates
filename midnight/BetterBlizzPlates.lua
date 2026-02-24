@@ -1,4 +1,3 @@
-if not BBP.isMidnight then return end
 -- I did not know what a variable was when I started. I know a little bit more now and I am so sorry.
 
 local LSM = LibStub("LibSharedMedia-3.0")
@@ -324,49 +323,49 @@ local defaultSettings = {
     totemIndicatorDefaultCooldownTextSize = 0.85,
     showTotemIndicatorCooldownSwipe = true,
     totemIndicatorHideAuras = false,
-    totemIndicatorNpcList = {
-        [59764] =   { name = "Healing Tide Totem", icon = C_Spell.GetSpellTexture(108280),              hideIcon = false, size = 30, duration = 10, color = {0, 1, 0.39}, important = true },
-        [59712] =   { name = "Stone Bulwark Totem", icon = C_Spell.GetSpellTexture(108270),             hideIcon = false, size = 30, duration = 30, color = {0.98, 0.75, 0.17}, important = true },
-        [5925] =    { name = "Grounding Totem", icon = C_Spell.GetSpellTexture(204336),                 hideIcon = false, size = 30, duration = 3,  color = {1, 0, 1}, important = true },
-        [53006] =   { name = "Spirit Link Totem", icon = C_Spell.GetSpellTexture(98008),                hideIcon = false, size = 30, duration = 6,  color = {0, 1, 0.78}, important = true },
-        [5913] =    { name = "Tremor Totem", icon = C_Spell.GetSpellTexture(8143),                      hideIcon = false, size = 30, duration = 13, color = {0.49, 0.9, 0.08}, important = true },
-        [104818] =  { name = "Ancestral Protection Totem", icon = C_Spell.GetSpellTexture(207399),      hideIcon = false, size = 30, duration = 33, color = {0, 1, 0.78}, important = true },
-        --11.1 removed [119052] =  { name = "War Banner", icon = C_Spell.GetSpellTexture(236320),                      hideIcon = false, size = 30, duration = 15, color = {1, 0, 1}, important = true },
-        [61245] =   { name = "Capacitor Totem", icon = C_Spell.GetSpellTexture(192058),                 hideIcon = false, size = 30, duration = 2,  color = {1, 0.69, 0}, important = true },
-        [105451] =  { name = "Counterstrike Totem", icon = C_Spell.GetSpellTexture(204331),             hideIcon = false, size = 30, duration = 15, color = {1, 0.27, 0.59}, important = true },
-        [101398] =  { name = "Psyfiend", icon = C_Spell.GetSpellTexture(199824),                        hideIcon = false, size = 35, duration = 12, color = {0.49, 0, 1}, important = true },
-        [225672] =  { name = "Shadow", icon = C_Spell.GetSpellTexture(8122),                            hideIcon = false, size = 35, duration = 4,  color = {0.78, 0.48, 1}, important = true },
-        [100943] =  { name = "Earthen Wall Totem", icon = C_Spell.GetSpellTexture(198838),              hideIcon = false, size = 30, duration = 18, color = {0.78, 0.49, 0.35}, important = true },
-        --11.1 removed [107100] =  { name = "Observer", icon = C_Spell.GetSpellTexture(112869),                        hideIcon = false, size = 30, duration = 20, color = {1, 0.69, 0}, important = true },
-        [135002] =  { name = "Tyrant", icon = C_Spell.GetSpellTexture(265187),                          hideIcon = false, size = 30, duration = 15, color = {1, 0.69, 0}, important = true },
-        [114565] =  { name = "Guardian of the Forgotten Queen", icon = C_Spell.GetSpellTexture(228049), hideIcon = false, size = 30, duration = 10, color = {1, 0, 1}, important = true },
-        [107024] =  { name = "Fel Lord", icon = C_Spell.GetSpellTexture(212459),                        hideIcon = false, size = 30, duration = 15, color = {1, 0.69, 0}, important = true },
-        -- PvP Battleground Health Flags
-        [14465] =   { name = "Alliance Battle Standard", icon = 132486,                                 hideIcon = false, size = 24, duration = nil, color = {0, 0.22, 1}, important = true },
-        [14466] =   { name = "Horde Battle Standard", icon = 132485,                                    hideIcon = false, size = 24, duration = nil, color = {1, 0, 0}, important = true },
-        -- Less important
-        --[103673] =  { name = "Darkglare", icon = C_Spell.GetSpellTexture(205180),                       hideIcon = false, size = 24, duration = 20, color = {1, 0, 0}, important = false},
-        [224466] =  { name = "Voidwraith", icon = C_Spell.GetSpellTexture(451234),                      hideIcon = false, size = 24, duration = 15, color = {1, 0.69, 0}, important = false },
-        [89] =      { name = "Infernal", icon = C_Spell.GetSpellTexture(1122),                          hideIcon = false, size = 24, duration = 30, color = {1, 0.69, 0}, important = false },
-        [196111] =  { name = "Pit Lord", icon = C_Spell.GetSpellTexture(138789),                        hideIcon = false, size = 24, duration = 10, color = {1, 0.69, 0}, important = false },
-        [3527] =    { name = "Healing Stream Totem", icon = C_Spell.GetSpellTexture(5394),              hideIcon = false, size = 24, duration = 18, color = {0, 1, 0.78}, important = false },
-        [78001] =   { name = "Cloudburst Totem", icon = C_Spell.GetSpellTexture(157153),                hideIcon = false, size = 24, duration = 15, color = {0, 1, 0.39}, important = false },
-        --11.1 removed [10467] =   { name = "Mana Tide Totem", icon = C_Spell.GetSpellTexture(16191),                  hideIcon = false, size = 24, duration = 8,  color = {0.08, 0.82, 0.78}, important = false },
-        [97285] =   { name = "Wind Rush Totem", icon = C_Spell.GetSpellTexture(192077),                 hideIcon = false, size = 24, duration = 18, color = {0.08, 0.82, 0.78}, important = false },
-        [60561] =   { name = "Earthgrab Totem", icon = C_Spell.GetSpellTexture(51485),                  hideIcon = false, size = 24, duration = 30, color = {0.75, 0.31, 0.10}, important = false },
-        [2630] =    { name = "Earthbind Totem", icon = C_Spell.GetSpellTexture(2484),                   hideIcon = false, size = 24, duration = 30, color = {0.78, 0.51, 0.39}, important = false },
-        [105427] =  { name = "Totem of Wrath", icon = C_Spell.GetSpellTexture(204330),                  hideIcon = false, size = 24, duration = 15, color = {1, 0.27, 0.59}, important = false },
-        [97369] =   { name = "Liquid Magma Totem", icon = C_Spell.GetSpellTexture(192222),              hideIcon = false, size = 24, duration = 6,  color = {1, 0.69, 0}, important = false },
-        [62982] =   { name = "Mindbender", icon = C_Spell.GetSpellTexture(123040),                      hideIcon = false, size = 24, duration = 15, color = {1, 0.69, 0}, important = false },
-        [19668] =   { name = "Shadowfiend", icon = C_Spell.GetSpellTexture(34433),                      hideIcon = false, size = 24, duration = 15, color = {1, 0.69, 0}, important = false },
-        [179867] =  { name = "Static Field Totem", icon = C_Spell.GetSpellTexture(355580),              hideIcon = false, size = 24, duration = 6,  color = {0, 1, 0.78}, important = false },
-        [194117] =  { name = "Stoneskin Totem", icon = C_Spell.GetSpellTexture(383017),                 hideIcon = false, size = 24, duration = 15, color = {0.78, 0.49, 0.35}, important = false },
-        [5923] =    { name = "Poison Cleansing Totem", icon = C_Spell.GetSpellTexture(383013),          hideIcon = false, size = 24, duration = 9,  color = {0.49, 0.9, 0.08}, important = false },
-        [194118] =  { name = "Tranquil Air Totem", icon = C_Spell.GetSpellTexture(383019),              hideIcon = false, size = 24, duration = 20, color = {0, 1, 0.78}, important = false },
-        [225409] =  { name = "Surging Totem", icon = C_Spell.GetSpellTexture(444995),                   hideIcon = false, size = 24, duration = 24, color = {1, 0.36, 0}, important = false },
-        [65282] =   { name = "Void Tendril", icon = C_Spell.GetSpellTexture(108920),                    hideIcon = false, size = 24, duration = 6,  color = {0.33, 0.35, 1}, important = false },
-        [185800] =  { name = "Past Self", icon = C_Spell.GetSpellTexture(371869),                       hideIcon = false, size = 24, duration = 8,  color = {1, 0, 0}, important = false }
-    },
+    -- totemIndicatorNpcList = {
+    --     [59764] =   { name = "Healing Tide Totem", icon = C_Spell.GetSpellTexture(108280),              hideIcon = false, size = 30, duration = 10, color = {0, 1, 0.39}, important = true },
+    --     [59712] =   { name = "Stone Bulwark Totem", icon = C_Spell.GetSpellTexture(108270),             hideIcon = false, size = 30, duration = 30, color = {0.98, 0.75, 0.17}, important = true },
+    --     [5925] =    { name = "Grounding Totem", icon = C_Spell.GetSpellTexture(204336),                 hideIcon = false, size = 30, duration = 3,  color = {1, 0, 1}, important = true },
+    --     [53006] =   { name = "Spirit Link Totem", icon = C_Spell.GetSpellTexture(98008),                hideIcon = false, size = 30, duration = 6,  color = {0, 1, 0.78}, important = true },
+    --     [5913] =    { name = "Tremor Totem", icon = C_Spell.GetSpellTexture(8143),                      hideIcon = false, size = 30, duration = 13, color = {0.49, 0.9, 0.08}, important = true },
+    --     [104818] =  { name = "Ancestral Protection Totem", icon = C_Spell.GetSpellTexture(207399),      hideIcon = false, size = 30, duration = 33, color = {0, 1, 0.78}, important = true },
+    --     --11.1 removed [119052] =  { name = "War Banner", icon = C_Spell.GetSpellTexture(236320),                      hideIcon = false, size = 30, duration = 15, color = {1, 0, 1}, important = true },
+    --     [61245] =   { name = "Capacitor Totem", icon = C_Spell.GetSpellTexture(192058),                 hideIcon = false, size = 30, duration = 2,  color = {1, 0.69, 0}, important = true },
+    --     [105451] =  { name = "Counterstrike Totem", icon = C_Spell.GetSpellTexture(204331),             hideIcon = false, size = 30, duration = 15, color = {1, 0.27, 0.59}, important = true },
+    --     [101398] =  { name = "Psyfiend", icon = C_Spell.GetSpellTexture(199824),                        hideIcon = false, size = 35, duration = 12, color = {0.49, 0, 1}, important = true },
+    --     [225672] =  { name = "Shadow", icon = C_Spell.GetSpellTexture(8122),                            hideIcon = false, size = 35, duration = 4,  color = {0.78, 0.48, 1}, important = true },
+    --     [100943] =  { name = "Earthen Wall Totem", icon = C_Spell.GetSpellTexture(198838),              hideIcon = false, size = 30, duration = 18, color = {0.78, 0.49, 0.35}, important = true },
+    --     --11.1 removed [107100] =  { name = "Observer", icon = C_Spell.GetSpellTexture(112869),                        hideIcon = false, size = 30, duration = 20, color = {1, 0.69, 0}, important = true },
+    --     [135002] =  { name = "Tyrant", icon = C_Spell.GetSpellTexture(265187),                          hideIcon = false, size = 30, duration = 15, color = {1, 0.69, 0}, important = true },
+    --     [114565] =  { name = "Guardian of the Forgotten Queen", icon = C_Spell.GetSpellTexture(228049), hideIcon = false, size = 30, duration = 10, color = {1, 0, 1}, important = true },
+    --     [107024] =  { name = "Fel Lord", icon = C_Spell.GetSpellTexture(212459),                        hideIcon = false, size = 30, duration = 15, color = {1, 0.69, 0}, important = true },
+    --     -- PvP Battleground Health Flags
+    --     [14465] =   { name = "Alliance Battle Standard", icon = 132486,                                 hideIcon = false, size = 24, duration = nil, color = {0, 0.22, 1}, important = true },
+    --     [14466] =   { name = "Horde Battle Standard", icon = 132485,                                    hideIcon = false, size = 24, duration = nil, color = {1, 0, 0}, important = true },
+    --     -- Less important
+    --     --[103673] =  { name = "Darkglare", icon = C_Spell.GetSpellTexture(205180),                       hideIcon = false, size = 24, duration = 20, color = {1, 0, 0}, important = false},
+    --     [224466] =  { name = "Voidwraith", icon = C_Spell.GetSpellTexture(451234),                      hideIcon = false, size = 24, duration = 15, color = {1, 0.69, 0}, important = false },
+    --     [89] =      { name = "Infernal", icon = C_Spell.GetSpellTexture(1122),                          hideIcon = false, size = 24, duration = 30, color = {1, 0.69, 0}, important = false },
+    --     [196111] =  { name = "Pit Lord", icon = C_Spell.GetSpellTexture(138789),                        hideIcon = false, size = 24, duration = 10, color = {1, 0.69, 0}, important = false },
+    --     [3527] =    { name = "Healing Stream Totem", icon = C_Spell.GetSpellTexture(5394),              hideIcon = false, size = 24, duration = 18, color = {0, 1, 0.78}, important = false },
+    --     [78001] =   { name = "Cloudburst Totem", icon = C_Spell.GetSpellTexture(157153),                hideIcon = false, size = 24, duration = 15, color = {0, 1, 0.39}, important = false },
+    --     --11.1 removed [10467] =   { name = "Mana Tide Totem", icon = C_Spell.GetSpellTexture(16191),                  hideIcon = false, size = 24, duration = 8,  color = {0.08, 0.82, 0.78}, important = false },
+    --     [97285] =   { name = "Wind Rush Totem", icon = C_Spell.GetSpellTexture(192077),                 hideIcon = false, size = 24, duration = 18, color = {0.08, 0.82, 0.78}, important = false },
+    --     [60561] =   { name = "Earthgrab Totem", icon = C_Spell.GetSpellTexture(51485),                  hideIcon = false, size = 24, duration = 30, color = {0.75, 0.31, 0.10}, important = false },
+    --     [2630] =    { name = "Earthbind Totem", icon = C_Spell.GetSpellTexture(2484),                   hideIcon = false, size = 24, duration = 30, color = {0.78, 0.51, 0.39}, important = false },
+    --     [105427] =  { name = "Totem of Wrath", icon = C_Spell.GetSpellTexture(204330),                  hideIcon = false, size = 24, duration = 15, color = {1, 0.27, 0.59}, important = false },
+    --     [97369] =   { name = "Liquid Magma Totem", icon = C_Spell.GetSpellTexture(192222),              hideIcon = false, size = 24, duration = 6,  color = {1, 0.69, 0}, important = false },
+    --     [62982] =   { name = "Mindbender", icon = C_Spell.GetSpellTexture(123040),                      hideIcon = false, size = 24, duration = 15, color = {1, 0.69, 0}, important = false },
+    --     [19668] =   { name = "Shadowfiend", icon = C_Spell.GetSpellTexture(34433),                      hideIcon = false, size = 24, duration = 15, color = {1, 0.69, 0}, important = false },
+    --     [179867] =  { name = "Static Field Totem", icon = C_Spell.GetSpellTexture(355580),              hideIcon = false, size = 24, duration = 6,  color = {0, 1, 0.78}, important = false },
+    --     [194117] =  { name = "Stoneskin Totem", icon = C_Spell.GetSpellTexture(383017),                 hideIcon = false, size = 24, duration = 15, color = {0.78, 0.49, 0.35}, important = false },
+    --     [5923] =    { name = "Poison Cleansing Totem", icon = C_Spell.GetSpellTexture(383013),          hideIcon = false, size = 24, duration = 9,  color = {0.49, 0.9, 0.08}, important = false },
+    --     [194118] =  { name = "Tranquil Air Totem", icon = C_Spell.GetSpellTexture(383019),              hideIcon = false, size = 24, duration = 20, color = {0, 1, 0.78}, important = false },
+    --     [225409] =  { name = "Surging Totem", icon = C_Spell.GetSpellTexture(444995),                   hideIcon = false, size = 24, duration = 24, color = {1, 0.36, 0}, important = false },
+    --     [65282] =   { name = "Void Tendril", icon = C_Spell.GetSpellTexture(108920),                    hideIcon = false, size = 24, duration = 6,  color = {0.33, 0.35, 1}, important = false },
+    --     [185800] =  { name = "Past Self", icon = C_Spell.GetSpellTexture(371869),                       hideIcon = false, size = 24, duration = 8,  color = {1, 0, 0}, important = false }
+    -- },
     -- Quest Indicator
     questIndicator = false,
     questIndicatorScale = 1,
@@ -573,165 +572,175 @@ local defaultSettings = {
     fadeOutNPCsAlpha = 0.2,
     fadeOutNPCOnlyFadeSecondaryPets = true,
 
-    defaultFadeOutNPCsList = {
-        {name = "Hunter Pet (they all have same ID)", id = 165189, comment = ""},
-        {name = "DK Pet", id = 26125, comment = ""},
-        {name = "Magus(Army of the Dead)", id = 148797, comment = ""},
-        {name = "Magus(Army of the Dead)", id = 163366, comment = ""},
-        {name = "Army of the Dead", id = 24207, comment = ""},
-        {name = "Felguard (Demo Pet)", id = 17252, comment = ""},
-        {name = "Spirit Wolves (Enha Shaman)", id = 29264, comment = ""},
-        {name = "Earth Elemental (Shaman)", id = 95072, comment = ""},
-        {name = "Greater Fire Elemental (Shaman)", id = 95061, comment = ""},
-        {name = "Greater Storm Elemental (Shaman)", id = 77936, comment = ""},
-        {name = "Mirror Images (Mage)", id = 31216, comment = ""},
-        {name = "Beast (Hunter)", id = 62005, comment = ""},
+    -- defaultFadeOutNPCsList = {
+    --     {name = "Hunter Pet (they all have same ID)", id = 165189, comment = ""},
+    --     {name = "DK Pet", id = 26125, comment = ""},
+    --     {name = "Magus(Army of the Dead)", id = 148797, comment = ""},
+    --     {name = "Magus(Army of the Dead)", id = 163366, comment = ""},
+    --     {name = "Army of the Dead", id = 24207, comment = ""},
+    --     {name = "Felguard (Demo Pet)", id = 17252, comment = ""},
+    --     {name = "Spirit Wolves (Enha Shaman)", id = 29264, comment = ""},
+    --     {name = "Earth Elemental (Shaman)", id = 95072, comment = ""},
+    --     {name = "Greater Fire Elemental (Shaman)", id = 95061, comment = ""},
+    --     {name = "Greater Storm Elemental (Shaman)", id = 77936, comment = ""},
+    --     {name = "Mirror Images (Mage)", id = 31216, comment = ""},
+    --     {name = "Beast (Hunter)", id = 62005, comment = ""},
 
-        {name = "Fenryr (Hunter)", id = 228224, comment = ""},
-        {name = "Hati (Hunter)", id = 228226, comment = ""},
-        {name = "Dark Hound (Hunter)", id = 228226, comment = ""},
-        {name = "Monk SEF Image (Red)", id = 69791, comment = ""},
-        {name = "Monk SEF Image (Green)", id = 69792, comment = ""},
+    --     {name = "Fenryr (Hunter)", id = 228224, comment = ""},
+    --     {name = "Hati (Hunter)", id = 228226, comment = ""},
+    --     {name = "Dark Hound (Hunter)", id = 228226, comment = ""},
+    --     {name = "Monk SEF Image (Red)", id = 69791, comment = ""},
+    --     {name = "Monk SEF Image (Green)", id = 69792, comment = ""},
 
-        {name = "Vilefiend (Warlock)", id = 135816, comment = ""},
-        {name = "Gloomhound (Warlock)", id = 226268, comment = ""},
-        {name = "Charhound (Warlock)", id = 226269, comment = ""},
-        {name = "Treant", id = 103822, comment = ""},
-        {name = "Whitemane (DK)", id = 221633, comment = ""},
-        {name = "Mograine (DK)", id = 221632, comment = ""},
-        {name = "Nazgrim (DK)", id = 221634, comment = ""},
-        {name = "Trollbane (DK)", id = 221635, comment = ""},
-        {name = "Water Elemental (Mage)", id = 208441, comment = ""},
+    --     {name = "Vilefiend (Warlock)", id = 135816, comment = ""},
+    --     {name = "Gloomhound (Warlock)", id = 226268, comment = ""},
+    --     {name = "Charhound (Warlock)", id = 226269, comment = ""},
+    --     {name = "Treant", id = 103822, comment = ""},
+    --     {name = "Whitemane (DK)", id = 221633, comment = ""},
+    --     {name = "Mograine (DK)", id = 221632, comment = ""},
+    --     {name = "Nazgrim (DK)", id = 221634, comment = ""},
+    --     {name = "Trollbane (DK)", id = 221635, comment = ""},
+    --     {name = "Water Elemental (Mage)", id = 208441, comment = ""},
 
-        {name = "Dire Basilisk (Hunter)", id = 105419, comment = ""},
-        {name = "Void Tendril (Spriest)", id = 192337, comment = ""},
-        {name = "Illidari Satyr", id = 136398, comment = ""},
-        {name = "Darkhound", id = 136408, comment = ""},
-        {name = "Void Terror", id = 136403, comment = ""},
-        {name = "Treant", id = 54983, comment = ""},
-    },
-    hideNPCsList = {
-        {name = "Mirror Images (Mage)", id = 31216, comment = ""},
-        {name = "Wild Imp (Warlock)", id = 55659, comment = ""},
-        {name = "Wild Imp (Warlock)", id = 143622, comment = ""},
-        {name = "Spirit Wolves (Shaman)", id = 29264, comment = "", flags = {murloc = true}},
-        {name = "Monk SEF Image (Red)", id = 69791, comment = "", flags = {murloc = true}},
-        {name = "Monk SEF Image (Green)", id = 69792, comment = "", flags = {murloc = true}},
-        {name = "Water Elemental (Mage)", id = 208441, comment = "", flags = {murloc = true}},
-    },
-    hideNPCsWhitelist = {
-        {name = "Hunter Pet (they all have same ID)", id = 165189, comment = ""},
-        {name = "Healing Tide Totem", id = 59764, comment = ""},
-        {name = "Grounding Totem", id = 5925, comment = ""},
-        {name = "Spirit Link Totem", id = 53006, comment = ""},
-        {name = "Tremor Totem", id = 5913, comment = ""},
-        {name = "Ancestral Protection Totem", id = 104818, comment = ""},
-        {name = "War Banner", id = 119052, comment = ""},
-        {name = "Capacitor Totem", id = 61245, comment = ""},
-        {name = "Counterstrike Totem", id = 105451, comment = ""},
-        {name = "Psyfiend (Spriest)", id = 101398, comment = ""},
-        {name = "Earthen Wall Totem", id = 100943, comment = ""},
-        {name = "Observer (Warlock)", id = 107100, comment = ""},
-        {name = "Tyrant (Warlock)", id = 135002, comment = ""},
-        {name = "Guardian Queen (prot pala)", id = 114565, comment = ""},
-        {name = "Healing Stream Totem", id = 3527, comment = ""},
-        {name = "Cloudburst Totem", id = 78001, comment = ""},
-        {name = "Mana Tide Totem", id = 10467, comment = ""},
-        {name = "Wind Rush Totem", id = 97285, comment = ""},
-        {name = "Earthgrab Totem", id = 60561, comment = ""},
-        {name = "Earthbind Totem", id = 2630, comment = ""},
-        {name = "Totem of Wrath", id = 105427, comment = ""},
-        {name = "Liquid Magma Totem", id = 97369, comment = ""},
-        {name = "Mindbender", id = 62982, comment = ""},
-        {name = "Static Field Totem", id = 179867, comment = ""},
-        {name = "Stoneskin Totem", id = 194117, comment = ""},
-        {name = "Poison Cleansing Totem", id = 5923, comment = ""},
-        {name = "Tranquil Air Totem", id = 194118, comment = ""},
-        {name = "Felguard (Demo Pet)", id = 17252, comment = ""},
-        {name = "Felhunter (Warlock)", id = 417, comment = ""},
-        {name = "Succubus (Warlock)", id = 1863, comment = ""},
-        {name = "Infernal (Warlock)", id = 89, comment = ""},
-        {name = "Stone Bulwark Totem", id = 59712, comment = ""},
-        {name = "Shadow (Priest Re-Fear)", id = 225672, comment = ""},
-        {name = "Voidwraith (Priest)", id = 224466, comment = ""},
-        {name = "Shadowfiend", id = 19668, comment = ""},
-        {name = "Surging Totem", id = 225409, comment = ""}
-    },
-    fadeOutNPCsWhitelist = {
-        {name = "Hunter Pet (they all have same ID)", id = 165189, comment = ""},
-        {name = "Healing Tide Totem", id = 59764, comment = ""},
-        {name = "Grounding Totem", id = 5925, comment = ""},
-        {name = "Spirit Link Totem", id = 53006, comment = ""},
-        {name = "Tremor Totem", id = 5913, comment = ""},
-        {name = "Ancestral Protection Totem", id = 104818, comment = ""},
-        {name = "War Banner", id = 119052, comment = ""},
-        {name = "Capacitor Totem", id = 61245, comment = ""},
-        {name = "Counterstrike Totem", id = 105451, comment = ""},
-        {name = "Psyfiend (Spriest)", id = 101398, comment = ""},
-        {name = "Earthen Wall Totem", id = 100943, comment = ""},
-        {name = "Observer (Warlock)", id = 107100, comment = ""},
-        {name = "Tyrant (Warlock)", id = 135002, comment = ""},
-        {name = "Guardian Queen (prot pala)", id = 114565, comment = ""},
-        {name = "Healing Stream Totem", id = 3527, comment = ""},
-        {name = "Cloudburst Totem", id = 78001, comment = ""},
-        {name = "Mana Tide Totem", id = 10467, comment = ""},
-        {name = "Wind Rush Totem", id = 97285, comment = ""},
-        {name = "Earthgrab Totem", id = 60561, comment = ""},
-        {name = "Earthbind Totem", id = 2630, comment = ""},
-        {name = "Totem of Wrath", id = 105427, comment = ""},
-        {name = "Liquid Magma Totem", id = 97369, comment = ""},
-        {name = "Mindbender", id = 62982, comment = ""},
-        {name = "Static Field Totem", id = 179867, comment = ""},
-        {name = "Stoneskin Totem", id = 194117, comment = ""},
-        {name = "Poison Cleansing Totem", id = 5923, comment = ""},
-        {name = "Tranquil Air Totem", id = 194118, comment = ""},
-        {name = "Felguard (Demo Pet)", id = 17252, comment = ""},
-        {name = "Felhunter (Warlock)", id = 417, comment = ""},
-        {name = "Succubus (Warlock)", id = 1863, comment = ""},
-        {name = "Infernal (Warlock)", id = 89, comment = ""},
-        {name = "Stone Bulwark Totem", id = 59712, comment = ""},
-        {name = "Shadow (Priest Re-Fear)", id = 225672, comment = ""},
-        {name = "Voidwraith (Priest)", id = 224466, comment = ""},
-        {name = "Shadowfiend", id = 19668, comment = ""},
-        {name = "Surging Totem", id = 225409, comment = ""}
-    },
+    --     {name = "Dire Basilisk (Hunter)", id = 105419, comment = ""},
+    --     {name = "Void Tendril (Spriest)", id = 192337, comment = ""},
+    --     {name = "Illidari Satyr", id = 136398, comment = ""},
+    --     {name = "Darkhound", id = 136408, comment = ""},
+    --     {name = "Void Terror", id = 136403, comment = ""},
+    --     {name = "Treant", id = 54983, comment = ""},
+    -- },
+    -- hideNPCsList = {
+    --     {name = "Mirror Images (Mage)", id = 31216, comment = ""},
+    --     {name = "Wild Imp (Warlock)", id = 55659, comment = ""},
+    --     {name = "Wild Imp (Warlock)", id = 143622, comment = ""},
+    --     {name = "Spirit Wolves (Shaman)", id = 29264, comment = "", flags = {murloc = true}},
+    --     {name = "Monk SEF Image (Red)", id = 69791, comment = "", flags = {murloc = true}},
+    --     {name = "Monk SEF Image (Green)", id = 69792, comment = "", flags = {murloc = true}},
+    --     {name = "Water Elemental (Mage)", id = 208441, comment = "", flags = {murloc = true}},
+    -- },
+    -- hideNPCsWhitelist = {
+    --     {name = "Hunter Pet (they all have same ID)", id = 165189, comment = ""},
+    --     {name = "Healing Tide Totem", id = 59764, comment = ""},
+    --     {name = "Grounding Totem", id = 5925, comment = ""},
+    --     {name = "Spirit Link Totem", id = 53006, comment = ""},
+    --     {name = "Tremor Totem", id = 5913, comment = ""},
+    --     {name = "Ancestral Protection Totem", id = 104818, comment = ""},
+    --     {name = "War Banner", id = 119052, comment = ""},
+    --     {name = "Capacitor Totem", id = 61245, comment = ""},
+    --     {name = "Counterstrike Totem", id = 105451, comment = ""},
+    --     {name = "Psyfiend (Spriest)", id = 101398, comment = ""},
+    --     {name = "Earthen Wall Totem", id = 100943, comment = ""},
+    --     {name = "Observer (Warlock)", id = 107100, comment = ""},
+    --     {name = "Tyrant (Warlock)", id = 135002, comment = ""},
+    --     {name = "Guardian Queen (prot pala)", id = 114565, comment = ""},
+    --     {name = "Healing Stream Totem", id = 3527, comment = ""},
+    --     {name = "Cloudburst Totem", id = 78001, comment = ""},
+    --     {name = "Mana Tide Totem", id = 10467, comment = ""},
+    --     {name = "Wind Rush Totem", id = 97285, comment = ""},
+    --     {name = "Earthgrab Totem", id = 60561, comment = ""},
+    --     {name = "Earthbind Totem", id = 2630, comment = ""},
+    --     {name = "Totem of Wrath", id = 105427, comment = ""},
+    --     {name = "Liquid Magma Totem", id = 97369, comment = ""},
+    --     {name = "Mindbender", id = 62982, comment = ""},
+    --     {name = "Static Field Totem", id = 179867, comment = ""},
+    --     {name = "Stoneskin Totem", id = 194117, comment = ""},
+    --     {name = "Poison Cleansing Totem", id = 5923, comment = ""},
+    --     {name = "Tranquil Air Totem", id = 194118, comment = ""},
+    --     {name = "Felguard (Demo Pet)", id = 17252, comment = ""},
+    --     {name = "Felhunter (Warlock)", id = 417, comment = ""},
+    --     {name = "Succubus (Warlock)", id = 1863, comment = ""},
+    --     {name = "Infernal (Warlock)", id = 89, comment = ""},
+    --     {name = "Stone Bulwark Totem", id = 59712, comment = ""},
+    --     {name = "Shadow (Priest Re-Fear)", id = 225672, comment = ""},
+    --     {name = "Voidwraith (Priest)", id = 224466, comment = ""},
+    --     {name = "Shadowfiend", id = 19668, comment = ""},
+    --     {name = "Surging Totem", id = 225409, comment = ""}
+    -- },
+    -- fadeOutNPCsWhitelist = {
+    --     {name = "Hunter Pet (they all have same ID)", id = 165189, comment = ""},
+    --     {name = "Healing Tide Totem", id = 59764, comment = ""},
+    --     {name = "Grounding Totem", id = 5925, comment = ""},
+    --     {name = "Spirit Link Totem", id = 53006, comment = ""},
+    --     {name = "Tremor Totem", id = 5913, comment = ""},
+    --     {name = "Ancestral Protection Totem", id = 104818, comment = ""},
+    --     {name = "War Banner", id = 119052, comment = ""},
+    --     {name = "Capacitor Totem", id = 61245, comment = ""},
+    --     {name = "Counterstrike Totem", id = 105451, comment = ""},
+    --     {name = "Psyfiend (Spriest)", id = 101398, comment = ""},
+    --     {name = "Earthen Wall Totem", id = 100943, comment = ""},
+    --     {name = "Observer (Warlock)", id = 107100, comment = ""},
+    --     {name = "Tyrant (Warlock)", id = 135002, comment = ""},
+    --     {name = "Guardian Queen (prot pala)", id = 114565, comment = ""},
+    --     {name = "Healing Stream Totem", id = 3527, comment = ""},
+    --     {name = "Cloudburst Totem", id = 78001, comment = ""},
+    --     {name = "Mana Tide Totem", id = 10467, comment = ""},
+    --     {name = "Wind Rush Totem", id = 97285, comment = ""},
+    --     {name = "Earthgrab Totem", id = 60561, comment = ""},
+    --     {name = "Earthbind Totem", id = 2630, comment = ""},
+    --     {name = "Totem of Wrath", id = 105427, comment = ""},
+    --     {name = "Liquid Magma Totem", id = 97369, comment = ""},
+    --     {name = "Mindbender", id = 62982, comment = ""},
+    --     {name = "Static Field Totem", id = 179867, comment = ""},
+    --     {name = "Stoneskin Totem", id = 194117, comment = ""},
+    --     {name = "Poison Cleansing Totem", id = 5923, comment = ""},
+    --     {name = "Tranquil Air Totem", id = 194118, comment = ""},
+    --     {name = "Felguard (Demo Pet)", id = 17252, comment = ""},
+    --     {name = "Felhunter (Warlock)", id = 417, comment = ""},
+    --     {name = "Succubus (Warlock)", id = 1863, comment = ""},
+    --     {name = "Infernal (Warlock)", id = 89, comment = ""},
+    --     {name = "Stone Bulwark Totem", id = 59712, comment = ""},
+    --     {name = "Shadow (Priest Re-Fear)", id = 225672, comment = ""},
+    --     {name = "Voidwraith (Priest)", id = 224466, comment = ""},
+    --     {name = "Shadowfiend", id = 19668, comment = ""},
+    --     {name = "Surging Totem", id = 225409, comment = ""}
+    -- },
 
-    hideCastbarList = {},
-    hideCastbarWhitelist = {},
-    colorNpcList = {},
-    auraWhitelist = {
-        {["name"] = "Example Aura :3 (delete me)",
-        ["entryColors"] = {
-            ["text"] = {
-                ["b"] = 0,
-                ["g"] = 1,
-                ["r"] = 0,
-            },
-        },}
-    },
-    auraBlacklist = {},
-    auraColorList = {},
+    --hideCastbarList = {},
+    --hideCastbarWhitelist = {},
+    --colorNpcList = {},
+    -- auraWhitelist = {
+    --     {["name"] = "Example Aura :3 (delete me)",
+    --     ["entryColors"] = {
+    --         ["text"] = {
+    --             ["b"] = 0,
+    --             ["g"] = 1,
+    --             ["r"] = 0,
+    --         },
+    --     },}
+    -- },
+    --auraBlacklist = {},
+    --auraColorList = {},
     friendlyColorNameRGB = {1, 1, 1},
 
-    castEmphasisList = {
-        {name = "Cyclone"},
-        {name = "Polymorph"},
-        {name = "Sleep Walk"},
-        {name = "Fear"},
-        {name = "Repentance"},
-        {name = "Hex"},
-        {name = "Ring of Frost"},
-        {name = "Mass Polymorph"},
-        {name = "Shadowfury"},
-        {name = "Haymaker"},
-        {name = "Mind Control"},
-        {name = "Hibernate"},
-        {name = "Scare Beast"},
-        {name = "Lightning Lasso"},
-        {name = "Song of Chi-Ji"},
-        {name = "Ring of Fire"},
-    },
-    castBarEmphasisSelfColorRGB = {1,0,0},
+    -- castEmphasisList = {
+    --     {name = "Cyclone"},
+    --     {name = "Polymorph"},
+    --     {name = "Sleep Walk"},
+    --     {name = "Fear"},
+    --     {name = "Repentance"},
+    --     {name = "Hex"},
+    --     {name = "Ring of Frost"},
+    --     {name = "Mass Polymorph"},
+    --     {name = "Shadowfury"},
+    --     {name = "Haymaker"},
+    --     {name = "Mind Control"},
+    --     {name = "Hibernate"},
+    --     {name = "Scare Beast"},
+    --     {name = "Lightning Lasso"},
+    --     {name = "Song of Chi-Ji"},
+    --     {name = "Ring of Fire"},
+    -- },
+    --castBarEmphasisSelfColorRGB = {1,0,0},
+
+    -- NPC color defaults grouped
+    -- NPC color defaults as separate entries (flat keys)
+    npcColorBoss = {0.76, 0.6, 0.42, 1},
+    npcColorMiniboss = {1, 0, 1, 1},
+    npcColorCaster = {0, 0.749, 1, 1},
+    npcColorMelee = {1, 0, 0, 1},
+    npcColorTrivial = {0.37, 0.12, 0.1, 1},
+    npcColorRareElite = {0.49, 1, 0.74, 1},
+    npcColorMinus = {0.63, 0.28, 0.17, 1},
 
     castBarInterruptHighlighter = false,
     castBarInterruptHighlighterColorDontInterrupt = false,
@@ -743,7 +752,9 @@ local defaultSettings = {
     nameplateResourceXPos = 0,
     nameplateResourceYPos = 0,
 
-    ghostAuras = {},
+    -- ghostAuras = {},
+
+
 
     -- Midnight new additions
     ccIconScale = 1.35,
@@ -960,6 +971,53 @@ local cvarList = {
     "nameplateAuraScale",
 }
 
+local bitCVarList = {
+    nameplateEnemyPlayerAuraDisplay = {
+        Enum.NamePlateEnemyPlayerAuraDisplay.Buffs,
+        Enum.NamePlateEnemyPlayerAuraDisplay.Debuffs,
+        Enum.NamePlateEnemyPlayerAuraDisplay.LossOfControl,
+    },
+    nameplateEnemyNpcAuraDisplay = {
+        Enum.NamePlateEnemyNpcAuraDisplay.Buffs,
+        Enum.NamePlateEnemyNpcAuraDisplay.Debuffs,
+        Enum.NamePlateEnemyNpcAuraDisplay.CrowdControl,
+    },
+    nameplateFriendlyPlayerAuraDisplay = {
+        Enum.NamePlateFriendlyPlayerAuraDisplay.Buffs,
+        Enum.NamePlateFriendlyPlayerAuraDisplay.Debuffs,
+        Enum.NamePlateFriendlyPlayerAuraDisplay.LossOfControl,
+    },
+    nameplateInfoDisplay = {
+        Enum.NamePlateInfoDisplay.CurrentHealthPercent,
+        Enum.NamePlateInfoDisplay.CurrentHealthValue,
+        Enum.NamePlateInfoDisplay.RarityIcon,
+    },
+    nameplateThreatDisplay = {
+        Enum.NamePlateThreatDisplay.Progressive,
+        Enum.NamePlateThreatDisplay.Flash,
+        Enum.NamePlateThreatDisplay.HealthBarColor,
+    },
+    nameplateCastBarDisplay = {
+        Enum.NamePlateCastBarDisplay.SpellName,
+        Enum.NamePlateCastBarDisplay.SpellIcon,
+        Enum.NamePlateCastBarDisplay.SpellTarget,
+        Enum.NamePlateCastBarDisplay.HighlightImportantCasts,
+        Enum.NamePlateCastBarDisplay.HighlightWhenCastTarget,
+    },
+    namePlateSimplifiedTypes = {
+        Enum.NamePlateSimplifiedType.Minion,
+        Enum.NamePlateSimplifiedType.MinusMob,
+        Enum.NamePlateSimplifiedType.FriendlyPlayer,
+        Enum.NamePlateSimplifiedType.FriendlyNpc,
+    },
+    nameplateStackingTypes = {
+        Enum.NamePlateStackType.Enemy,
+        Enum.NamePlateStackType.Friendly,
+    },
+}
+
+BBP.bitCVarList = bitCVarList
+
 function BBP.ResetNameplateCVars()
     if BBPCVarBackupsDB then
         for cvar, value in pairs(BBPCVarBackupsDB) do
@@ -979,14 +1037,42 @@ function BBP.ResetNameplateCVars()
             BetterBlizzPlatesDB[cvar] = defaultValue
         end
     end
+
+    if BBPCVarBackupsDB and BBPCVarBackupsDB.bitfields then
+        for cvarName, indices in pairs(BBPCVarBackupsDB.bitfields) do
+            for key, value in pairs(indices) do
+                C_CVar.SetCVarBitfield(cvarName, tonumber(key), value)
+            end
+        end
+        if BetterBlizzPlatesDB.bitfields then
+            BetterBlizzPlatesDB.bitfields = CopyTable(BBPCVarBackupsDB.bitfields)
+        end
+    else
+        for cvarName, indexList in pairs(bitCVarList) do
+            for _, index in ipairs(indexList) do
+                local defaultValue = C_CVar.GetCVarBitfield(cvarName, index)
+                if not BetterBlizzPlatesDB.bitfields then BetterBlizzPlatesDB.bitfields = {} end
+                if not BetterBlizzPlatesDB.bitfields[cvarName] then BetterBlizzPlatesDB.bitfields[cvarName] = {} end
+                BetterBlizzPlatesDB.bitfields[cvarName][tostring(index)] = defaultValue
+            end
+        end
+    end
 end
 
 local function CVarDefaultOnLogout()
     if not BBPCVarBackupsDB then return end
     if InCombatLockdown() or BetterBlizzPlatesDB.disableCVarForceOnLogin then return end
     for cvar, value in pairs(BBPCVarBackupsDB) do
-        if cvar ~= "nameplateStyle" then -- Midnight style, skip for now
+        if cvar ~= "nameplateStyle" and cvar ~= "bitfields" then -- Midnight style, skip for now
             C_CVar.SetCVar(cvar, value)
+        end
+    end
+
+    if BBPCVarBackupsDB.bitfields then
+        for cvarName, indices in pairs(BBPCVarBackupsDB.bitfields) do
+            for key, value in pairs(indices) do
+                C_CVar.SetCVarBitfield(cvarName, tonumber(key), value)
+            end
         end
     end
 end
@@ -1021,6 +1107,26 @@ local function CVarFetcher()
                 value = 0.9
             end
             BetterBlizzPlatesDB[cvar] = value
+        end
+
+        if not BBPCVarBackupsDB.bitfields then
+            BBPCVarBackupsDB.bitfields = {}
+        end
+        if not BetterBlizzPlatesDB.bitfields then
+            BetterBlizzPlatesDB.bitfields = {}
+        end
+        for cvarName, indexList in pairs(bitCVarList) do
+            if not BBPCVarBackupsDB.bitfields[cvarName] then
+                BBPCVarBackupsDB.bitfields[cvarName] = {}
+            end
+            if not BetterBlizzPlatesDB.bitfields[cvarName] then
+                BetterBlizzPlatesDB.bitfields[cvarName] = {}
+            end
+            for _, index in ipairs(indexList) do
+                local currentValue = C_CVar.GetCVarBitfield(cvarName, index)
+                BBPCVarBackupsDB.bitfields[cvarName][tostring(index)] = currentValue
+                BetterBlizzPlatesDB.bitfields[cvarName][tostring(index)] = currentValue
+            end
         end
 
         if true then
@@ -1078,6 +1184,37 @@ function BBP.CVarAdditionFetcher()
         end
     end
 
+    if not BBPCVarBackupsDB.bitfields then
+        BBPCVarBackupsDB.bitfields = {}
+    end
+    if not BetterBlizzPlatesDB.bitfields then
+        BetterBlizzPlatesDB.bitfields = {}
+    end
+    for cvarName, indexList in pairs(bitCVarList) do
+        if not BBPCVarBackupsDB.bitfields[cvarName] then
+            BBPCVarBackupsDB.bitfields[cvarName] = {}
+        end
+        if not BetterBlizzPlatesDB.bitfields[cvarName] then
+            BetterBlizzPlatesDB.bitfields[cvarName] = {}
+        end
+        for _, index in ipairs(indexList) do
+            local key = tostring(index)
+            local needsBackup = BBPCVarBackupsDB.bitfields[cvarName][key] == nil
+            local needsDB = BetterBlizzPlatesDB.bitfields[cvarName][key] == nil
+
+            if needsBackup or needsDB then
+                local currentValue = C_CVar.GetCVarBitfield(cvarName, index)
+                if needsBackup then
+                    BBPCVarBackupsDB.bitfields[cvarName][key] = currentValue
+                end
+                if needsDB then
+                    BetterBlizzPlatesDB.bitfields[cvarName][key] = currentValue
+                end
+                anyAdded = true
+            end
+        end
+    end
+
     return anyAdded
 end
 
@@ -1128,6 +1265,18 @@ function BBP.CVarsAreSaved()
         end
     end
 
+    for cvarName, indexList in pairs(bitCVarList) do
+        if not db.bitfields or not db.bitfields[cvarName] then
+            table.insert(missing, cvarName .. " (bitfield)")
+        else
+            for _, index in ipairs(indexList) do
+                if db.bitfields[cvarName][tostring(index)] == nil then
+                    table.insert(missing, cvarName .. "[" .. tostring(index) .. "]")
+                end
+            end
+        end
+    end
+
     if #missing > 0 then
         if not printedCVarMissing then
             printedCVarMissing = true
@@ -1153,7 +1302,6 @@ local function ResetNameplates()
 
     BetterBlizzPlatesDB.nameplateOverlapH = 0.8
     BetterBlizzPlatesDB.nameplateOverlapV = 1.1
-    BetterBlizzPlatesDB.nameplateMotion = 0
     BetterBlizzPlatesDB.nameplateMotionSpeed = 0.025
     BetterBlizzPlatesDB.nameplateHorizontalScale = 1.4
     BetterBlizzPlatesDB.NamePlateVerticalScale = 2.7
@@ -1193,7 +1341,6 @@ local function ResetNameplates()
 
     C_CVar.SetCVar("nameplateOverlapH", BetterBlizzPlatesDB.nameplateOverlapH)
     C_CVar.SetCVar("nameplateOverlapV", BetterBlizzPlatesDB.nameplateOverlapV)
-    C_CVar.SetCVar("nameplateMotion", BetterBlizzPlatesDB.nameplateMotion)
     C_CVar.SetCVar("nameplateMotionSpeed", BetterBlizzPlatesDB.nameplateMotionSpeed)
     C_CVar.SetCVar("nameplateHorizontalScale", BetterBlizzPlatesDB.nameplateHorizontalScale)
     C_CVar.SetCVar("NamePlateVerticalScale", BetterBlizzPlatesDB.NamePlateVerticalScale)
@@ -2021,18 +2168,18 @@ function BBP.SetFontBasedOnOption(namePlateObj, specifiedSize, forcedOutline)
         local fontPath = LSM:Fetch(LSM.MediaType.FONT, fontName)
         local fontSize = db.defaultFontSize
         font = fontPath
-        outline = forcedOutline or "THINOUTLINE"
+        outline = forcedOutline or "THINOUTLINE, SLUG"
         currentSize = (specifiedSize + 2) or (fontSize + 3)
     else
-        local defaultNamePlateFontFlags =db.defaultNamePlateFontFlags
+        local defaultNamePlateFontFlags = db.defaultNamePlateFontFlags
         local defaultFontSize = db.defaultFontSize
         font = db.defaultNamePlateFont
-        outline = forcedOutline or "OUTLINE, SLUG"--defaultNamePlateFontFlags
+        outline = forcedOutline or defaultNamePlateFontFlags
         currentSize = specifiedSize or defaultFontSize
     end
 
-    if forcedOutline == "" then
-        outline = "OUTLINE, SLUG"
+    if outline == "" then
+        outline = "SLUG"
     end
 
     namePlateObj:SetFont(font, currentSize, outline)
@@ -2163,9 +2310,6 @@ local function SetCVarsOnLogin()
         C_CVar.SetCVar("nameplateShowClassColor", BetterBlizzPlatesDB.nameplateShowClassColor)
         C_CVar.SetCVar("nameplateShowFriendlyClassColor", BetterBlizzPlatesDB.nameplateShowFriendlyClassColor)
 
-        if BetterBlizzPlatesDB.nameplateMotion then
-            C_CVar.SetCVar("nameplateMotion", BetterBlizzPlatesDB.nameplateMotion)
-        end
 
         if BetterBlizzPlatesDB.nameplateDebuffPadding then
             C_CVar.SetCVar("nameplateDebuffPadding", BetterBlizzPlatesDB.nameplateDebuffPadding)
@@ -2210,6 +2354,14 @@ local function SetCVarsOnLogin()
             end
             C_CVar.SetCVar("nameplateShowFriendlyPlayerPets", BetterBlizzPlatesDB.nameplateShowFriendlyPlayerPets)
             C_CVar.SetCVar("nameplateShowFriendlyPlayerTotems", BetterBlizzPlatesDB.nameplateShowFriendlyPlayerTotems)
+        end
+
+        if BetterBlizzPlatesDB.bitfields then
+            for cvarName, indices in pairs(BetterBlizzPlatesDB.bitfields) do
+                for key, value in pairs(indices) do
+                    C_CVar.SetCVarBitfield(cvarName, tonumber(key), value)
+                end
+            end
         end
 
         ToggleFriendlyPlates()
@@ -3341,57 +3493,61 @@ end
 --################################################################################################
 -- Color NPCs
 function BBP.ColorNpcHealthbar(frame)
-    if BBP.isMidnight then return end
+    if not BBP.isInPvE and not BetterBlizzPlatesDB.colorNPCEverywhere then return end
     if not frame or not frame.unit then return end
-    local config = frame.BetterBlizzPlates and frame.BetterBlizzPlates.config or InitializeNameplateSettings(frame)
-    local info = frame.BetterBlizzPlates.unitInfo or GetNameplateUnitInfo(frame)
-    if not info then return end
+    if UnitIsPlayer(frame.unit) or not isEnemy(frame.unit) then return end
 
-    -- Skip if the unit is a player
-    if info.isPlayer then
-        if config.npcHealthbarColor then
-            config.npcHealthbarColor = nil
-            -- CompactUnitFrame_UpdateName(frame)
-            BBP.ConsolidatedUpdateName(frame)
+    local config = frame.BetterBlizzPlates and frame.BetterBlizzPlates.config or InitializeNameplateSettings(frame)
+
+    local db = BetterBlizzPlatesDB
+    local lvl = UnitEffectiveLevel(frame.unit)
+    local playerLvl = UnitLevel("player")
+    local classification = UnitClassification(frame.unit)
+
+    if classification == "elite" then
+        if lvl == playerLvl then
+            local class = UnitClassBase(frame.unit)
+            if class == "PALADIN" then
+                config.npcHealthbarColor = db.npcColorCaster
+            else
+                config.npcHealthbarColor = db.npcColorMelee
+            end
+        elseif lvl == (playerLvl + 1) then
+            config.npcHealthbarColor = db.npcColorMiniboss
+        elseif lvl >= (playerLvl + 2) or lvl == -1 then
+            config.npcHealthbarColor = db.npcColorBoss
+        else
+            if UnitIsBossMob(frame.unit) or UnitIsQuestBoss(frame.unit) then
+                config.npcHealthbarColor = db.npcColorBoss
+            else
+                local class = UnitClassBase(frame.unit)
+                if class == "PALADIN" then
+                    config.npcHealthbarColor = db.npcColorCaster
+                else
+                    config.npcHealthbarColor = nil
+                    return
+                end
+            end
         end
+    elseif classification == "trivial" then
+        config.npcHealthbarColor = db.npcColorTrivial
+    elseif classification == "minus" then
+        config.npcHealthbarColor = db.npcColorMinus
+    elseif classification == "rareelite" or classification == "rare" then
+        config.npcHealthbarColor = db.npcColorRareElite
+    elseif classification == "worldboss" then
+        config.npcHealthbarColor = db.npcColorBoss
+    else
+        config.npcHealthbarColor = nil
         return
     end
-    if not info.unitGUID then return end
 
-    local npcID = select(6, strsplit("-", info.unitGUID))
-    local npcName = UnitName(frame.unit)
+    local r,g,b,a = unpack(config.npcHealthbarColor)
 
-    -- Convert npcName to lowercase for case insensitive comparison
-    local lowerCaseNpcName = strlower(npcName)
-
-    -- Check if the NPC is in the list by ID or name (case insensitive)
-    local inList = false
-    local npcHealthbarColor = nil
-    local colorNpcList = BetterBlizzPlatesDB.colorNpcList
-    for _, npc in ipairs(colorNpcList) do
-        if npc.id == tonumber(npcID) or (npc.name and strlower(npc.name) == lowerCaseNpcName) then
-            inList = true
-            if npc.entryColors then
-                npcHealthbarColor = npc.entryColors.text
-            else
-                npc.entryColors = {} -- default for new entries that doesnt have a color yet
-            end
-            break
-        end
-    end
-
-    -- Set the vertex color based on the NPC color values
-    if inList and npcHealthbarColor then
-        config.npcHealthbarColor = npcHealthbarColor
-        frame.healthBar:SetStatusBarColor(config.npcHealthbarColor.r, config.npcHealthbarColor.g, config.npcHealthbarColor.b)
-        local colorNPCName = BetterBlizzPlatesDB.colorNPCName
-        if colorNPCName then
-            frame.name:SetVertexColor(config.npcHealthbarColor.r, config.npcHealthbarColor.g, config.npcHealthbarColor.b)
-        end
-    elseif config.npcHealthbarColor then
-        config.npcHealthbarColor = nil
-        -- CompactUnitFrame_UpdateName(frame)
-        BBP.ConsolidatedUpdateName(frame)
+    frame.healthBar:SetStatusBarColor(r, g, b, a)
+    local colorNPCName = db.colorNPCName
+    if colorNPCName then
+        frame.name:SetVertexColor(r, g, b)
     end
 end
 -- frame.healthBar:SetStatusBarColor(config.npcHealthbarColor.r, config.npcHealthbarColor.g, config.npcHealthbarColor.b)
@@ -3748,7 +3904,7 @@ function BBP.CompactUnitFrame_UpdateHealthColor(frame, exitLoop)
     end
 
     if config.colorNPC and config.npcHealthbarColor then
-        frame.healthBar:SetStatusBarColor(config.npcHealthbarColor.r, config.npcHealthbarColor.g, config.npcHealthbarColor.b)
+        frame.healthBar:SetStatusBarColor(unpack(config.npcHealthbarColor))
     end
 
     if ( BetterBlizzPlatesDB.enemyColorThreat and (BBP.isInPvE or (BetterBlizzPlatesDB.threatColorAlwaysOn and not BBP.isInPvP)) ) then
@@ -3839,7 +3995,7 @@ local function NameplateShadowAndMouseoverHighlight(frame)
 
     local onlyShowHighlight = BetterBlizzPlatesDB.onlyShowHighlightedNpShadow
     local keepTargetHighlighted = BetterBlizzPlatesDB.keepNpShadowTargetHighlighted
-    local healthVisible = frame.HealthBarsContainer.alphaZero ~= true-- and frame.healthBar:GetWidth() > 5
+    local healthVisible = frame.HealthBarsContainer.alphaZero ~= true and frame.HealthBarsContainer.healthBar:IsShown()-- and frame.healthBar:GetWidth() > 5
     local r,g,b,a = unpack(BetterBlizzPlatesDB.nameplateShadowRGB)
     local hlR,hlG,hlB,hlA = unpack(BetterBlizzPlatesDB.nameplateShadowHighlightRGB)
     local shadowAlpha = (not healthVisible and 0) or onlyShowHighlight and 0 or a
@@ -3912,7 +4068,7 @@ local function StartPeriodicCheck()
             for _, nameplate in pairs(C_NamePlate.GetNamePlates()) do
                 local frame = nameplate.UnitFrame
                 if frame and frame.BBPmouseoverTex then
-                    local healthVisible = frame.HealthBarsContainer.alphaZero ~= true-- and frame.healthBar:GetWidth() > 5
+                    local healthVisible = frame.HealthBarsContainer.alphaZero ~= true and frame.HealthBarsContainer.healthBar:IsShown()-- and frame.healthBar:GetWidth() > 5
                     local r,g,b,a = unpack(BetterBlizzPlatesDB.nameplateShadowRGB)
                     local hlR,hlG,hlB,hlA = unpack(BetterBlizzPlatesDB.nameplateShadowHighlightRGB)
                     local shadowAlpha = (not healthVisible and 0) or onlyShowHighlight and 0 or a
@@ -3949,7 +4105,7 @@ local function EnableMouseoverChecker()
                 if frame and frame.BBPmouseoverTex then
                     local isMouseover = UnitIsUnit(frame.unit, "mouseover") and BetterBlizzPlatesDB.highlightNpShadowOnMouseover
                     local isTarget = UnitIsUnit(frame.unit, "target")
-                    local healthVisible = frame.HealthBarsContainer.alphaZero ~= true-- and frame.healthBar:IsShown() and frame.healthBar:GetWidth() > 5
+                    local healthVisible = frame.HealthBarsContainer.alphaZero ~= true and frame.HealthBarsContainer.healthBar:IsShown()-- and frame.healthBar:IsShown() and frame.healthBar:GetWidth() > 5
                     local onlyOnTarget = BetterBlizzPlatesDB.showNameplateShadowOnlyTarget
                     local r,g,b,a = unpack(BetterBlizzPlatesDB.nameplateShadowRGB)
                     local hlR,hlG,hlB,hlA = unpack(BetterBlizzPlatesDB.nameplateShadowHighlightRGB)
@@ -5705,6 +5861,15 @@ function BBP.SetupBorderOnFrame(frame, hpBar)
             frame.background:SetAllPoints(frame)
             frame.background:SetColorTexture(0, 0, 0, 0.4)
         end
+        if frame.borders then
+            if not frame.healthBar:IsShown() then
+                frame.borders:Hide()
+                frame.background:Hide()
+            else
+                frame.borders:Show()
+                frame.background:Show()
+            end
+        end
         --frame.selectedBorder:SetParent(frame.hiddenFrame)
     end
     if frame.newBorder then return end
@@ -5769,18 +5934,34 @@ function BBP.SetupBorderOnFrame(frame, hpBar)
         SizeBorders(size)
     end
 
+    if hpBar then
+        if not frame.healthBar:IsShown() then
+            frame.borders:Hide()
+            frame.background:Hide()
+        else
+            frame.borders:Show()
+            frame.background:Show()
+        end
+    end
+
     frame.newBorder = true
 end
 
 function BBP.SetupMidnightCastbarIcon(frame)
+    if not BetterBlizzPlatesDB.enableCastbarCustomization then return end
     if frame.castBarIconFrame then return end
     frame.castBarIconFrame = CreateFrame("Frame", nil, frame.castBar)
     frame.castBarIconFrame:SetFrameStrata("HIGH")
     frame.castBarIconFrame:SetFrameLevel(frame.castBar:GetFrameLevel()+1)
-    frame.castBarIconFrame:SetSize(14, 14)
-    frame.castBarIconFrame:SetScale(BetterBlizzPlatesDB.castBarIconScale or 1.0)
-    local xPos = BetterBlizzPlatesDB.castBarIconXPos or 0
-    local yPos = BetterBlizzPlatesDB.castBarIconYPos or 0
+
+    local db = BetterBlizzPlatesDB
+
+    local customCastbar = db.enableCastbarCustomization
+    frame.castBarIconFrame:SetSize(14,14)
+    frame.castBarIconFrame:SetScale((customCastbar and db.castBarIconScale) or 1)
+
+    local xPos = db.castBarIconXPos or 0
+    local yPos = db.castBarIconYPos or 0
     frame.castBarIconFrame:SetPoint("CENTER", frame.castBar, "LEFT", -2 + xPos, yPos)
 
     frame.castBarIconFrame.Icon = frame.castBarIconFrame:CreateTexture(nil, "OVERLAY", nil, 2)
@@ -5806,29 +5987,36 @@ function BBP.SetupMidnightCastbarIcon(frame)
         frame.castBarIconFrame.Icon:Show()
     end)
 
-    hooksecurefunc(frame.castBar.Icon, "SetShown", function(self)
+    local function AdjustCustomBorderShield(frame)
         if frame:IsForbidden() then return end
-        self:Hide()
-        frame.castBarIconFrame.Icon:SetShown(self:IsShown())
-    end)
+        local shield = frame.castBar.BorderShield
+        shield:ClearAllPoints()
+        if BetterBlizzPlatesDB.showCastBarIconWhenNoninterruptible then
+            shield:SetPoint("TOPLEFT", frame.castBarIconFrame, "TOPLEFT", -2.5, 2)
+            shield:SetPoint("BOTTOMRIGHT", frame.castBarIconFrame, "BOTTOMRIGHT", 2.5, -5.5)
+        else
+            shield:SetPoint("TOPLEFT", frame.castBarIconFrame, "TOPLEFT", -0.5, 0)
+            shield:SetPoint("BOTTOMRIGHT", frame.castBarIconFrame, "BOTTOMRIGHT", 0, -4.5)
+        end
+    end
 
     hooksecurefunc(frame.castBar.Icon, "Hide", function(self)
         if frame:IsForbidden() then return end
         frame.castBarIconFrame.Icon:Hide()
     end)
 
+    hooksecurefunc(frame.castBar.Icon, "SetShown", function(self, shown)
+        if frame:IsForbidden() then return end
+        self:Hide()
+        frame.castBarIconFrame.Icon:SetShown(shown)
+        AdjustCustomBorderShield(frame)
+    end)
+
     hooksecurefunc(frame.castBar.BorderShield, "SetPoint", function(self)
         if frame:IsForbidden() then return end
         if self.changingIconPos then return end
         self.changingIconPos = true
-        self:ClearAllPoints()
-        if frame.castBarIconFrame:IsShown() then
-            self:SetPoint("TOPLEFT", frame.castBarIconFrame, "TOPLEFT", -2, 2)
-            self:SetPoint("BOTTOMRIGHT", frame.castBarIconFrame, "BOTTOMRIGHT", 2, -4)
-        else
-            self:SetPoint("TOPLEFT", frame.castBarIconFrame, "TOPLEFT", 0, 0)
-            self:SetPoint("BOTTOMRIGHT", frame.castBarIconFrame, "BOTTOMRIGHT", 0, -2)
-        end
+        AdjustCustomBorderShield(frame)
         self.changingIconPos = nil
     end)
 end
@@ -6297,10 +6485,11 @@ function BBP.RefreshAllNameplates()
     --     end
     -- end
     if not db.skipAdjustingFixedFonts then
-        BBP.SetFontBasedOnOption(SystemFont_LargeNamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, (db.useCustomFont and db.enableCustomFontOutline) and db.customFontOutline or "OUTLINE, SLUG")--db.defaultLargeNamePlateFontFlags)
-        BBP.SetFontBasedOnOption(SystemFont_NamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, (db.useCustomFont and db.enableCustomFontOutline) and db.customFontOutline or "OUTLINE, SLUG")--db.defaultNamePlateFontFlags)
-        BBP.SetFontBasedOnOption(SystemFont_LargeNamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, (db.useCustomFont and db.enableCustomFontOutline) and db.customFontOutline or "OUTLINE, SLUG")--db.defaultLargeNamePlateFontFlags)
-        BBP.SetFontBasedOnOption(SystemFont_NamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, (db.useCustomFont and db.enableCustomFontOutline) and db.customFontOutline or "OUTLINE, SLUG")--db.defaultNamePlateFontFlags)
+        BBP.SetFontBasedOnOption(SystemFont_LargeNamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, (db.useCustomFont and db.enableCustomFontOutline) and (db.customFontOutline and db.customFontOutline..", SLUG") or db.disableDefaultBlizzardOutline and "SLUG" or "OUTLINE, SLUG")--db.defaultLargeNamePlateFontFlags)
+        BBP.SetFontBasedOnOption(SystemFont_NamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, (db.useCustomFont and db.enableCustomFontOutline) and (db.customFontOutline and db.customFontOutline..", SLUG") or db.disableDefaultBlizzardOutline and "SLUG" or "OUTLINE, SLUG")--db.defaultNamePlateFontFlags)
+        BBP.SetFontBasedOnOption(SystemFont_NamePlate_Outlined, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, (db.useCustomFont and db.enableCustomFontOutline) and (db.customFontOutline and db.customFontOutline..", SLUG") or db.disableDefaultBlizzardOutline and "SLUG" or "OUTLINE, SLUG")--db.defaultNamePlateFontFlags)
+        BBP.SetFontBasedOnOption(SystemFont_LargeNamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, (db.useCustomFont and db.enableCustomFontOutline) and (db.customFontOutline and db.customFontOutline..", SLUG") or db.disableDefaultBlizzardOutline and "SLUG" or "OUTLINE, SLUG")--db.defaultLargeNamePlateFontFlags)
+        BBP.SetFontBasedOnOption(SystemFont_NamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, (db.useCustomFont and db.enableCustomFontOutline) and (db.customFontOutline and db.customFontOutline..", SLUG") or db.disableDefaultBlizzardOutline and "SLUG" or "OUTLINE, SLUG")--db.defaultNamePlateFontFlags)
     end
     BBP.UpdateAuraTypeColors()
     for _, nameplate in pairs(C_NamePlate.GetNamePlates()) do
@@ -6639,15 +6828,14 @@ function BBP.ConsolidatedUpdateName(frame)
     -- Class color and scale names depending on their reaction
     BBP.ClassColorAndScaleNames(frame)
     -- BBP.isMidnight
-    local db = BetterBlizzPlatesDB
-    BBP.SetFontBasedOnOption(frame.name, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, (db.useCustomFont and db.enableCustomFontOutline) and db.customFontOutline or "OUTLINE, SLUG")
     -- Default new np name pos, this removes truncate:
     --frame.name:ClearAllPoints()
     --frame.name:SetPoint("BOTTOMLEFT", frame.HealthBarsContainer, "TOPLEFT", 4.2, 2)
 
     -- Color NPC
     if config.colorNPC and config.colorNPCName and config.npcHealthbarColor then
-        frame.name:SetVertexColor(config.npcHealthbarColor.r, config.npcHealthbarColor.g, config.npcHealthbarColor.b)
+        local r,g,b = unpack(config.npcHealthbarColor)
+        frame.name:SetVertexColor(r, g, b)
     end
 
     --BBP.RepositionName(frame)
@@ -6869,7 +7057,7 @@ local InstanceChecker = CreateFrame("Frame")
 
 local function SetStackingNameplateBehaviour(enabled)
     BBP.CVarTrackingDisabled = true
-    C_CVar.SetCVar("nameplateMotion", enabled and 1 or 0)
+    C_CVar.SetCVarBitfield("nameplateStackingTypes", Enum.NamePlateStackType.Enemy, enabled)
     BBP.CVarTrackingDisabled = nil
 end
 
@@ -6887,7 +7075,9 @@ local function SetNameplateBehavior()
                 C_CVar.SetCVar('nameplateShowOnlyNameForFriendlyPlayerUnits', 0)
             end
             if BetterBlizzPlatesDB.toggleNamesOffDuringPVE then C_CVar.SetCVar("UnitNameFriendlyPlayerName", 0) end
-            if BetterBlizzPlatesDB.nameplateMotion == "1" and BetterBlizzPlatesDB.keepOverlappingNameplatesInPvP then
+            local enemyStacking = BetterBlizzPlatesDB.bitfields and BetterBlizzPlatesDB.bitfields.nameplateStackingTypes
+                and BetterBlizzPlatesDB.bitfields.nameplateStackingTypes[tostring(Enum.NamePlateStackType.Enemy)]
+            if enemyStacking and BetterBlizzPlatesDB.keepOverlappingNameplatesInPvP then
                 SetStackingNameplateBehaviour(true)
             end
             BBP.ApplyNameplateWidth()
@@ -6895,7 +7085,9 @@ local function SetNameplateBehavior()
             --if BetterBlizzPlatesDB.friendlyHideHealthBar then C_CVar.SetCVar('nameplateShowOnlyNameForFriendlyPlayerUnits', 0) end
             C_CVar.SetCVar('nameplateShowOnlyNameForFriendlyPlayerUnits', 0)
             if BetterBlizzPlatesDB.toggleNamesOffDuringPVE then C_CVar.SetCVar("UnitNameFriendlyPlayerName", 1) end
-            if BetterBlizzPlatesDB.nameplateMotion == "1" and BetterBlizzPlatesDB.keepOverlappingNameplatesInPvP then
+            local enemyStacking = BetterBlizzPlatesDB.bitfields and BetterBlizzPlatesDB.bitfields.nameplateStackingTypes
+                and BetterBlizzPlatesDB.bitfields.nameplateStackingTypes[tostring(Enum.NamePlateStackType.Enemy)]
+            if enemyStacking and BetterBlizzPlatesDB.keepOverlappingNameplatesInPvP then
                 if BBP.isInPvP then
                     SetStackingNameplateBehaviour(false)
                 else
@@ -7073,6 +7265,16 @@ Frame:SetScript("OnEvent", function(...)
         end
     --end
 
+    if db.nameplateMotion == "1" and not db.fixedNameplateMotion then
+        if db.friendlyNameplateNonstackable then
+            C_CVar.SetCVarBitfield("nameplateStackingTypes", Enum.NamePlateStackType.Friendly, true)
+        else
+            C_CVar.SetCVarBitfield("nameplateStackingTypes", Enum.NamePlateStackType.Friendly, false)
+        end
+        C_CVar.SetCVarBitfield("nameplateStackingTypes", Enum.NamePlateStackType.Enemy, true)
+        db.fixedNameplateMotion = true
+    end
+
     CheckForUpdate()
 
     if not db.skipBugWarning then
@@ -7119,10 +7321,11 @@ Frame:SetScript("OnEvent", function(...)
         BBP.TargetResourceUpdater()
         BBP.InstantComboPoints()
         if not db.skipAdjustingFixedFonts then
-            BBP.SetFontBasedOnOption(SystemFont_LargeNamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, (db.useCustomFont and db.enableCustomFontOutline) and db.customFontOutline or "OUTLINE, SLUG")--db.defaultLargeNamePlateFontFlags)
-            BBP.SetFontBasedOnOption(SystemFont_NamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, (db.useCustomFont and db.enableCustomFontOutline) and db.customFontOutline or "OUTLINE, SLUG")--db.defaultNamePlateFontFlags)
-            BBP.SetFontBasedOnOption(SystemFont_LargeNamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, (db.useCustomFont and db.enableCustomFontOutline) and db.customFontOutline or "OUTLINE, SLUG")--db.defaultLargeNamePlateFontFlags)
-            BBP.SetFontBasedOnOption(SystemFont_NamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, (db.useCustomFont and db.enableCustomFontOutline) and db.customFontOutline or "OUTLINE, SLUG")--db.defaultNamePlateFontFlags)
+            BBP.SetFontBasedOnOption(SystemFont_LargeNamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, (db.useCustomFont and db.enableCustomFontOutline) and (db.customFontOutline and db.customFontOutline..", SLUG") or db.disableDefaultBlizzardOutline and "SLUG" or "OUTLINE, SLUG")--db.defaultLargeNamePlateFontFlags)
+            BBP.SetFontBasedOnOption(SystemFont_NamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, (db.useCustomFont and db.enableCustomFontOutline) and (db.customFontOutline and db.customFontOutline..", SLUG") or db.disableDefaultBlizzardOutline and "SLUG" or "OUTLINE, SLUG")--db.defaultNamePlateFontFlags)
+            BBP.SetFontBasedOnOption(SystemFont_NamePlate_Outlined, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, (db.useCustomFont and db.enableCustomFontOutline) and (db.customFontOutline and db.customFontOutline..", SLUG") or db.disableDefaultBlizzardOutline and "SLUG" or "OUTLINE, SLUG")--db.defaultNamePlateFontFlags)
+            BBP.SetFontBasedOnOption(SystemFont_LargeNamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, (db.useCustomFont and db.enableCustomFontOutline) and (db.customFontOutline and db.customFontOutline..", SLUG") or db.disableDefaultBlizzardOutline and "SLUG" or "OUTLINE, SLUG")--db.defaultLargeNamePlateFontFlags)
+            BBP.SetFontBasedOnOption(SystemFont_NamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, (db.useCustomFont and db.enableCustomFontOutline) and (db.customFontOutline and db.customFontOutline..", SLUG") or db.disableDefaultBlizzardOutline and "SLUG" or "OUTLINE, SLUG")--db.defaultNamePlateFontFlags)
         end
     end)
 
