@@ -1,7 +1,7 @@
 # BetterBlizzPlates 1.9.7b
 ## Midnight
 ### Bugfix/Tweak
-- Fix issue with nameplate name size. Should be better and more consistent now. HOWEVER; Please read the tooltip of Name Size slider in /bbp as when adjusting this the size still does get a little weird and this is mentioned how to work around in the tooltip. Still not sure what causes this but after a reload there shouldnt be any problems now (hopefully).
+- Fix issue with nameplate name size. Should be better and more consistent now. HOWEVER; Please read the tooltip of Name Size slider in /bbp as when adjusting this the size still does get a little weird and this is mentioned how to work around in the tooltip. Still not sure what causes this but after a reload there shouldnt be any problems now (hopefully). The name size things have been improved from Blizzards side with more API and I will likely rework the name size settings in the future but for now it stays with this system.
 - Fix PRD frame sometimes having bottom border hidden with certain settings.
 
 # BetterBlizzPlates 1.9.7
