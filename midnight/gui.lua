@@ -5328,7 +5328,7 @@ local function guiGeneralTab()
 
     local enemyNameScale = CreateSlider(BetterBlizzPlates, "Name Size", 0.5, 1.5, 0.01, "enemyNameScale")
     enemyNameScale:SetPoint("TOPLEFT", showNameplateTargetText, "BOTTOMLEFT", 12, -10)
-    CreateTooltipTwo(enemyNameScale, "Name Size", "Change Name size on Enemy nameplates", "While adjusting this setting names can get 20% larger/smaller due to Blizzard scaling issues. Reload between adjustments to make sure the size is what you want.")
+    CreateTooltipTwo(enemyNameScale, "Name Size", "Change Name size on Enemy nameplates")
 
     local hideEnemyNameText = CreateCheckbox("hideEnemyNameText", "Hide name", BetterBlizzPlates)
     hideEnemyNameText:SetPoint("LEFT", enemyNameScale, "RIGHT", 2, 0)
@@ -5690,7 +5690,7 @@ local function guiGeneralTab()
 
     local friendlyNameScale = CreateSlider(BetterBlizzPlates, "Name Size", 0.5, 3, 0.01, "friendlyNameScale")
     friendlyNameScale:SetPoint("TOPLEFT", classColorPersonalNameplate, "BOTTOMLEFT", 0, -6)
-    CreateTooltipTwo(friendlyNameScale, "Name Size", "Change Name size on Friendly nameplates.", "While adjusting this setting names can get 20% larger/smaller due to Blizzard scaling issues. Reload between adjustments to make sure the size is what you want.")
+    CreateTooltipTwo(friendlyNameScale, "Name Size", "Change Name size on Friendly nameplates.", "Note: This changes the scale of the name, not the font size itself and means this scale wont be active in PvE.\n\nHowever there is a setting in Misc to tweak the default font size setting and you can use that as a baseline for PvE name size and keep this slider at 1 and tweak the Enemy Size slider from there since thats allowed in PvE.\n\nIt was made this way to support different size names on Friendly vs Enemy but will eventually be reworked with new API available now.")
 
     local hideNameTooltip = "Hide Name on Friendly nameplates."
     if BetterBlizzPlatesDB.partyPointerHideAll then
@@ -12417,6 +12417,7 @@ local function guiTemp()
             BetterBlizzPlatesDB.hpHeightFriendly = 4 * 2.7
             BetterBlizzPlatesDB.hpHeightSelf = 4 * 2.7
             BetterBlizzPlatesDB.hpHeightSelfMana = 4 * 2.7
+            BetterBlizzPlatesDB.disableDefaultBlizzardOutline = true
             if not InCombatLockdown() then
                 C_CVar.SetCVar("nameplateStyle", "2")
             end
@@ -12427,6 +12428,7 @@ local function guiTemp()
         else
             BetterBlizzPlatesDB.useFakeName = false
             BetterBlizzPlatesDB.changeHealthbarHeight = false
+            BetterBlizzPlatesDB.disableDefaultBlizzardOutline = nil
         end
         StaticPopup_Show("BBP_CONFIRM_RELOAD")
     end)

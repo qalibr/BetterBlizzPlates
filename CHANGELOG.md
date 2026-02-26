@@ -1,3 +1,12 @@
+# BetterBlizzPlates 1.9.7c
+## Midnight
+### Tweak
+- Update Venruki profile (www.twitch.tv/venruki). Ty for sharing.
+### Bugfix
+- Fix more issues with text rendering and name size. The name size slider should also now finally be sorted properly.
+- Fix typo in nameplate simplified CVar name not storing proper names.
+- Fix some castbar icon issues.
+
 # BetterBlizzPlates 1.9.7b
 ## Midnight
 ### Bugfix/Tweak

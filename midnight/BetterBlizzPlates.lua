@@ -1004,7 +1004,7 @@ local bitCVarList = {
         Enum.NamePlateCastBarDisplay.HighlightImportantCasts,
         Enum.NamePlateCastBarDisplay.HighlightWhenCastTarget,
     },
-    namePlateSimplifiedTypes = {
+    nameplateSimplifiedTypes = {
         Enum.NamePlateSimplifiedType.Minion,
         Enum.NamePlateSimplifiedType.MinusMob,
         Enum.NamePlateSimplifiedType.FriendlyPlayer,
@@ -2180,7 +2180,7 @@ function BBP.SetFontBasedOnOption(namePlateObj, specifiedSize, forcedOutline)
 
     if outline == "" then
         outline = "SLUG"
-    else
+    elseif not outline:find("SLUG") then
         outline = outline .. ", SLUG"
     end
 
@@ -2376,9 +2376,8 @@ function BBP.ToggleNameplateAuras(frame)
     if not db.nameplateAuraPlayersOnly then return end
     --if not frame then return end
 
-    local isTarget = frame == BBP.currentTargetNameplate --UnitIsUnit(frame.unit, "target") --needs update
-    local isPlayer = false--UnitIsPlayer(frame.unit)
-    local shouldShowAuras = isPlayer or (db.nameplateAuraPlayersOnlyShowTarget and isTarget)
+    local isTarget = UnitIsUnit(frame.unit, "target") --needs update
+    local shouldShowAuras = (db.nameplateAuraPlayersOnlyShowTarget and isTarget)
 
     frame.AurasFrame:SetAlpha(shouldShowAuras and 1 or 0)
 end
@@ -2387,7 +2386,7 @@ function BBP.TargetNameplateAuraSize(frame)
     local db = BetterBlizzPlatesDB
     if not db.targetNameplateAuraScaleEnabled then return end
     --if not frame then return end
-    local isTarget = frame == BBP.currentTargetNameplate --UnitIsUnit(frame.unit, "target") --needs update
+    local isTarget = UnitIsUnit(frame.unit, "target") --needs update
 
     frame.AurasFrame:SetScale(isTarget and db.targetNameplateAuraScale or 1)
 end
@@ -2550,8 +2549,9 @@ function BBP.ClassColorAndScaleNames(frame)
     else
         scale = enemyScale or 1
     end
-    frame.name:SetIgnoreParentScale(true)
+    frame.name:SetIgnoreParentScale(false)
     frame.name:SetScale(scale)
+    frame.name:SetIgnoreParentScale(true)
 end
 
 
@@ -6014,7 +6014,7 @@ function BBP.SetupMidnightCastbarIcon(frame)
     hooksecurefunc(frame.castBar.Icon, "SetShown", function(self, shown)
         if frame:IsForbidden() then return end
         self:Hide()
-        frame.castBarIconFrame.Icon:SetShown(shown)
+        frame.castBarIconFrame.Icon:SetShown(true)
         AdjustCustomBorderShield(frame)
     end)
 
@@ -6110,6 +6110,10 @@ local function HandleNamePlateAdded(unit)
         BBP.CastbarOnEvent(frame)
 
         frame.name:SetFontHeight((BetterBlizzPlatesDB.customFontSizeEnabled and BetterBlizzPlatesDB.customFontSize) or BetterBlizzPlatesDB.defaultFontSize or 9)
+        if not BetterBlizzPlatesDB.useCustomFont and BetterBlizzPlatesDB.disableDefaultBlizzardOutline then
+            local f,s = frame.name:GetFont()
+            frame.name:SetFont(f,s,"SLUG")
+        end
     end
 
     -- Make settings
@@ -6504,10 +6508,10 @@ function BBP.RefreshAllNameplates()
     --     end
     -- end
     if not db.skipAdjustingFixedFonts then
-        local customOutline = (db.useCustomFont and db.enableCustomFontOutline) and (db.customFontOutline and db.customFontOutline..", SLUG") or nil
+        local customOutline = db.useCustomFont and ((db.enableCustomFontOutline and db.customFontOutline) and (db.customFontOutline..", SLUG") or "SLUG") or nil
         BBP.SetFontBasedOnOption(SystemFont_LargeNamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or EnsureFontFlags(db.defaultLargeNamePlateFontFlags))
         BBP.SetFontBasedOnOption(SystemFont_NamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or EnsureFontFlags(db.defaultNamePlateFontFlags))
-        BBP.SetFontBasedOnOption(SystemFont_NamePlate_Outlined, (db.customFontSizeEnabled and db.customFontSize) or db.defaultOutlinedFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or "OUTLINE, SLUG")
+        BBP.SetFontBasedOnOption(SystemFont_NamePlate_Outlined, (db.customFontSizeEnabled and db.customFontSize) or db.defaultOutlinedFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or "OUTLINE")
         BBP.SetFontBasedOnOption(SystemFont_LargeNamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or EnsureFontFlags(db.defaultLargeNamePlateFontFlags))
         BBP.SetFontBasedOnOption(SystemFont_NamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or EnsureFontFlags(db.defaultNamePlateFontFlags))
     end
@@ -7239,6 +7243,15 @@ local function HookNpFlagUpdates()
     -- end
 end
 
+local function MoveableSettingsPanel()
+    local frame = SettingsPanel
+    if frame and not frame:GetScript("OnDragStart") and not C_AddOns.IsAddOnLoaded("BlizzMove") then
+        frame:RegisterForDrag("LeftButton")
+        frame:SetScript("OnDragStart", frame.StartMoving)
+        frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
+    end
+end
+
 -- Event registration for PLAYER_LOGIN
 local Frame = CreateFrame("Frame")
 Frame:RegisterEvent("PLAYER_LOGIN")
@@ -7341,14 +7354,16 @@ Frame:SetScript("OnEvent", function(...)
         BBP.TargetResourceUpdater()
         BBP.InstantComboPoints()
         if not db.skipAdjustingFixedFonts then
-            local customOutline = (db.useCustomFont and db.enableCustomFontOutline) and (db.customFontOutline and db.customFontOutline..", SLUG") or nil
+            local customOutline = db.useCustomFont and ((db.enableCustomFontOutline and db.customFontOutline) and (db.customFontOutline..", SLUG") or "SLUG") or nil
             BBP.SetFontBasedOnOption(SystemFont_LargeNamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or EnsureFontFlags(db.defaultLargeNamePlateFontFlags))
             BBP.SetFontBasedOnOption(SystemFont_NamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or EnsureFontFlags(db.defaultNamePlateFontFlags))
-            BBP.SetFontBasedOnOption(SystemFont_NamePlate_Outlined, (db.customFontSizeEnabled and db.customFontSize) or db.defaultOutlinedFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or "OUTLINE, SLUG")
+            BBP.SetFontBasedOnOption(SystemFont_NamePlate_Outlined, (db.customFontSizeEnabled and db.customFontSize) or db.defaultOutlinedFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or "OUTLINE")
             BBP.SetFontBasedOnOption(SystemFont_LargeNamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or EnsureFontFlags(db.defaultLargeNamePlateFontFlags))
             BBP.SetFontBasedOnOption(SystemFont_NamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or EnsureFontFlags(db.defaultNamePlateFontFlags))
         end
+        MoveableSettingsPanel()
     end)
+
 
     BBP.HookHealthbarHeight()
 
@@ -7425,15 +7440,6 @@ nameplateWidthOnEnterWorld:SetScript("OnEvent", function()
         end
     end
 end)
-
-local function MoveableSettingsPanel()
-    local frame = SettingsPanel
-    if frame and not frame:GetScript("OnDragStart") and not C_AddOns.IsAddOnLoaded("BlizzMove") then
-        frame:RegisterForDrag("LeftButton")
-        frame:SetScript("OnDragStart", frame.StartMoving)
-        frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
-    end
-end
 
 -- Slash command
 SLASH_BBP1 = "/bbp"
@@ -7770,6 +7776,7 @@ First:SetScript("OnEvent", function(_, event, addonName)
             if not db.firstSaveComplete then
                 db.defaultLargeNamePlateFont, db.defaultLargeFontSize, db.defaultLargeNamePlateFontFlags = SystemFont_LargeNamePlate:GetFont()
                 db.defaultNamePlateFont, db.defaultFontSize, db.defaultNamePlateFontFlags = SystemFont_NamePlate:GetFont()
+                db.defaultNamePlateOutlinedFont, db.defaultOutlinedFontSize, db.defaultNamePlateOutlinedFontFlags = SystemFont_NamePlate_Outlined:GetFont()
                 FetchAndSaveValuesOnFirstLogin()
 
                 db.firstSaveComplete = true
@@ -7778,6 +7785,13 @@ First:SetScript("OnEvent", function(_, event, addonName)
             end
             if not BetterBlizzPlatesDB.nameplateGeneralHpHeight then
                 BetterBlizzPlatesDB.nameplateGeneralHpHeight = ((BetterBlizzPlatesDB.NamePlateVerticalScale or 2.7) * 4) + 5.5
+            end
+
+            if db.bitfields and db.bitfields["namePlateSimplifiedTypes"] then
+                db.bitfields["namePlateSimplifiedTypes"] = nil
+            end
+            if BBPCVarBackupsDB and BBPCVarBackupsDB.bitfields and BBPCVarBackupsDB.bitfields["namePlateSimplifiedTypes"] then
+                BBPCVarBackupsDB.bitfields["namePlateSimplifiedTypes"] = nil
             end
 
             if not db.old_defaultLargeNamePlateFont then
@@ -7792,6 +7806,15 @@ First:SetScript("OnEvent", function(_, event, addonName)
                 db.defaultLargeNamePlateFont, db.defaultLargeFontSize, db.defaultLargeNamePlateFontFlags = SystemFont_LargeNamePlate:GetFont()
                 db.defaultNamePlateFont, db.defaultFontSize, db.defaultNamePlateFontFlags = SystemFont_NamePlate:GetFont()
                 db.defaultNamePlateOutlinedFont, db.defaultOutlinedFontSize, db.defaultNamePlateOutlinedFontFlags = SystemFont_NamePlate_Outlined:GetFont()
+
+                if not db.skipAdjustingFixedFonts then
+                    local customOutline = db.useCustomFont and ((db.enableCustomFontOutline and db.customFontOutline) and (db.customFontOutline..", SLUG") or "SLUG") or nil
+                    BBP.SetFontBasedOnOption(SystemFont_LargeNamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or EnsureFontFlags(db.defaultLargeNamePlateFontFlags))
+                    BBP.SetFontBasedOnOption(SystemFont_NamePlate, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or EnsureFontFlags(db.defaultNamePlateFontFlags))
+                    BBP.SetFontBasedOnOption(SystemFont_NamePlate_Outlined, (db.customFontSizeEnabled and db.customFontSize) or db.defaultOutlinedFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or "OUTLINE")
+                    BBP.SetFontBasedOnOption(SystemFont_LargeNamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultLargeFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or EnsureFontFlags(db.defaultLargeNamePlateFontFlags))
+                    BBP.SetFontBasedOnOption(SystemFont_NamePlateFixed, (db.customFontSizeEnabled and db.customFontSize) or db.defaultFontSize, customOutline or (db.disableDefaultBlizzardOutline and "SLUG") or EnsureFontFlags(db.defaultNamePlateFontFlags))
+                end
             end
 
             C_Timer.After(1, function()

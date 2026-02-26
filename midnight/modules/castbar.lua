@@ -386,7 +386,7 @@ function BBP.CustomizeCastbar(frame, unitToken, event)
         BBP.SetFontBasedOnOption(castBar.Text, 12, "OUTLINE")
     else
         local f = castBar.Text:GetFont()
-        castBar.Text:SetFont(f,12,"OUTLINE")
+        castBar.Text:SetFont(f,12,"OUTLINE, SLUG")
     end
 
     if hideCastbarText then
@@ -453,9 +453,21 @@ function BBP.CustomizeCastbar(frame, unitToken, event)
             if (casting or channeling) then
                 if notInterruptible ~= nil then
                     castBar.Icon:SetAlphaFromBoolean(notInterruptible, 0, 1)
+                    if frame.castBarIconFrame then
+                        frame.castBarIconFrame.Icon:SetAlphaFromBoolean(notInterruptible, 0, 1)
+                        if frame.castBarIconFrame.Icon.borders then
+                            frame.castBarIconFrame.Icon.borders:SetAlphaFromBoolean(notInterruptible, 0, 1)
+                        end
+                    end
                 else
                     castBar.Icon:Show() --attempt to fix icon randomly not showing (blizz bug)
                     castBar.Icon:SetAlpha(1)
+                    if frame.castBarIconFrame then
+                        frame.castBarIconFrame.Icon:SetAlpha(1)
+                        if frame.castBarIconFrame.Icon.borders then
+                            frame.castBarIconFrame.Icon.borders:SetAlpha(1)
+                        end
+                    end
                 end
             elseif not castBar:IsVisible() then
                 castBar.Icon:Hide()
@@ -649,7 +661,7 @@ function BBP.UpdateNameplateTargetText(frame, unit)
             BBP.SetFontBasedOnOption(frame.TargetText, (useCustomFont and (npTextSize or 6)) or (npTextSize or 6))
         else
             local f,s,o = frame.TargetText:GetFont()
-            frame.TargetText:SetFont(f, npTextSize or 6,"OUTLINE")
+            frame.TargetText:SetFont(f, npTextSize or 6, "OUTLINE, SLUG")
         end
     else
         frame.TargetText:SetText("")
@@ -663,7 +675,7 @@ function BBP.UpdateCastTimer(frame, unit)
         --nameplate.CastTimer:SetPoint("LEFT", nameplate, "BOTTOMRIGHT", -10, 15)
         frame.CastTimer:SetPoint("LEFT", frame.castBar, "RIGHT", 5, 0)
         local npTextSize = BetterBlizzPlatesDB.npTargetTextSize
-        BBP.SetFontBasedOnOption(frame.CastTimer, npTextSize or 12, "OUTLINE")
+        BBP.SetFontBasedOnOption(frame.CastTimer, npTextSize or 12, "OUTLINE, SLUG")
         frame.CastTimer:SetTextColor(1, 1, 1)
     end
 
